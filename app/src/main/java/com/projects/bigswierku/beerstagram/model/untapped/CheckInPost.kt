@@ -9,6 +9,6 @@ data class CheckInPost(
         val beerStyle : String,
         val breweryName : String,
         val cityName: String,
-        val bigPhotoUrl : String?,
-        val smallPhotoUrl : String?,
-        val rating: Int )
+        val bigPhotoUrl : String,
+        val smallPhotoUrl : String,
+        val rating: Double )

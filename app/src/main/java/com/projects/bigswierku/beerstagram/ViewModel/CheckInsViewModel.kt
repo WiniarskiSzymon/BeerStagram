@@ -12,7 +12,7 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
 
 
     fun getCheckIns() :Flowable<CheckInPost> {
-        return untappedAPI.getCheckIns().map { it.checkins.items.toPost()}
+        return untappedAPI.getCheckIns().flatMap { Flowable.fromIterable ( it.response.checkins.items.flatMap {  listOf(it.toPost())})}
 
     }
 

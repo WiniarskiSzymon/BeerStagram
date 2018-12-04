@@ -21,9 +21,9 @@ data class CheckIn(
         @SerializedName("distance")
     val distance: Double,
         @SerializedName("media")
-    val media: Media,
+    val media: Medias,
         @SerializedName("rating_score")
-    val ratingScore: Int,
+    val ratingScore: Double,
         @SerializedName("source")
     val source: Source,
         @SerializedName("toasts")

@@ -43,6 +43,7 @@ class CheckInFragment() : Fragment() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext {
                             checkInList.add(it)
+                            viewAdapter.notifyDataSetChanged()
                         }
                         .subscribe()
         )
@@ -51,9 +52,10 @@ class CheckInFragment() : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreate(savedInstanceState)
         val view =  inflater.inflate(R.layout.checkins_list, container, false)
 
-        viewManager = GridLayoutManager(this.context, 10)
+        viewManager = LinearLayoutManager(this.context)
         viewAdapter = CheckInsAdapter(checkInList)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.checkins_recycler_view).apply {

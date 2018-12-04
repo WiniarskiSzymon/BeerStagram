@@ -20,7 +20,7 @@ class CheckInsAdapter(val items: List<CheckInPost>) : RecyclerView.Adapter<Check
         holder.breweryNameTextView.text = items[position].breweryName
         holder.updateWithUrl(items[position].bigPhotoUrl?: "")
         holder.berrStyleTextView.text = items[position].beerStyle
-        holder.beerRatingTextView.text = items[position].rating.toString() + "/5"
+        holder.beerRatingTextView.text = items[position].rating.toString()
         holder.checkInCommentTextView.text = items[position].checkinComment
 
 

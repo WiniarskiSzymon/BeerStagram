@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.GsonBuilder
 import com.projects.bigswierku.beerstagram.model.untapped.PubResponse
 import com.projects.bigswierku.beerstagram.model.untapped.BeerInfoRequest
+import com.projects.bigswierku.beerstagram.model.untapped.PubLocalRequest
 import io.reactivex.Flowable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,9 +38,9 @@ class UntappedAPI {
 
     }
 
-    fun getCheckIns():Flowable<PubResponse>{
+    fun getCheckIns():Flowable<PubLocalRequest>{
         val service = retrofit.create(UntappedService::class.java)
-        return service.getPubLocal(clientID, clientSecret,"12","23","km")
+        return service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km")
 
     }
     private fun getLogger() : OkHttpClient{

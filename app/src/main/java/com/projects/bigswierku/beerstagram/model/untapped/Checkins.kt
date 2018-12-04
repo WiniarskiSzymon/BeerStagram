@@ -6,6 +6,6 @@ data class Checkins(
     @SerializedName("count")
     val count: Int,
     @SerializedName("items")
-    val items: CheckIn
+    val items: List<CheckIn>
 )
 

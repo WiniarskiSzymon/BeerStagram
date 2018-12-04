@@ -17,7 +17,7 @@ data class Media(
         val user: User,
         @SerializedName("venue")
         @Transient
-        val venue: List<List<Venue>>
+        val venue: List<Venue>
 ){
         val photo
                 get() = _photo ?: Photo()
