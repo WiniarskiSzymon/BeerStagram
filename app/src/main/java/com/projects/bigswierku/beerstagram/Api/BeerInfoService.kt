@@ -7,7 +7,7 @@ import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
- interface  UntappedService{
+ interface  BeerInfoService{
 
     @GET("beer/info/1629")
     fun getBeerInfo (
@@ -15,13 +15,6 @@ import retrofit2.http.Query
             @Query("client_secret")clientSecret : String
     ):Flowable<BeerInfoRequest>
 
-    @GET("thepub/local")
-    fun getPubLocal (
-            @Query("client_id")clientID: String,
-            @Query("client_secret")clientSecret : String,
-            @Query("lat")lat : String,
-            @Query("lng")lng : String,
-            @Query("dist_pref") dist_pref : String
-    ):Flowable<PubLocalRequest>
+
 
 }

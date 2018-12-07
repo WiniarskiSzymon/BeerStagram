@@ -1,6 +1,8 @@
 package com.projects.bigswierku.beerstagram.View
 
 
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.projects.bigswierku.beerstagram.R
@@ -13,6 +15,7 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import okhttp3.HttpUrl
 import javax.inject.Inject
 
 
@@ -54,6 +57,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.activity_main)
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
+         getCode()
+
+
 
     }
     private fun openFragment(fragment: Fragment, name : String) {
@@ -61,6 +67,21 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         transaction.replace(R.id.container, fragment,name)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+
+    fun getCode(){
+
+        val authorizeUrl = HttpUrl.parse("https://untappd.com/oauth/authenticate") //
+                ?.newBuilder() //
+                ?.addQueryParameter("client_id", "7BA7E574D1C0CEFCEB7FDAB198D5A68F402FC9A8")
+                ?.addQueryParameter("redirect_uri", "com.projects.bigswierku.beerstagram")
+                ?.addQueryParameter("response_type", "code")
+                ?.build()
+        val intent =  Intent(Intent.ACTION_VIEW)
+        intent.setData(Uri.parse(authorizeUrl.toString()))
+        startActivity(intent)
+
     }
 
 
