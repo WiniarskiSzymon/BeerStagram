@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         val authorizeUrl = HttpUrl.parse("https://untappd.com/oauth/authenticate") //
                 ?.newBuilder() //
                 ?.addQueryParameter("client_id", "7BA7E574D1C0CEFCEB7FDAB198D5A68F402FC9A8")
-                ?.addQueryParameter("redirect_uri", "com.projects.bigswierku.beerstagram")
+                ?.addQueryParameter("redirect_uri", "https://untappd.com/user/swierku")
                 ?.addQueryParameter("response_type", "code")
                 ?.build()
         val intent =  Intent(Intent.ACTION_VIEW)

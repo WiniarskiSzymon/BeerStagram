@@ -16,23 +16,18 @@
         <activity android:name=".View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <data android:scheme="com.projects.bigswierku.beerstagram" />
             </intent-filter>
         </activity>
         <activity android:name=".View.LogInActivity">
             <intent-filter>
+                <data android:scheme="httpsuntappd.com/user/swierku"/>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="com.projects.bigswierku.beerstagram" />
+            </intent-filter>
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
