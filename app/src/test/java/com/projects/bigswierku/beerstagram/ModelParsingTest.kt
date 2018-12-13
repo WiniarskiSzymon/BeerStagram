@@ -28,15 +28,15 @@ class ModelParsingTest {
     fun shouldDeserializeBeerObject(){
         beer = gson.fromJson(jsonStrin2,BeerResponse::class.java)
         assert(beer.beer.bid == 16630)
-        assert(beer.beer.medias.items.photo.photoImgMd=="https://d1c8v1qci5en44.cloudfront.net/photo/2014_12_14/b73895e69761fdb62a4a9e10294e9613_320x320.jpg")
+        assert(beer.beer.medias.items[0].photo.photoImgMd=="https://d1c8v1qci5en44.cloudfront.net/photo/2014_12_14/b73895e69761fdb62a4a9e10294e9613_320x320.jpg")
     }
 
     @Test
     @DisplayName("Checking if check in without photo  is properly serialazed")
     fun testDefaultPhoto(){
         pubResponse = gson.fromJson(localCheckInsJSON,PubResponse::class.java)
-        assert(pubResponse.checkins.items.beer.bid == 7481)
-        assert(pubResponse.checkins.items.media.photo.photoImgMd == "https://d1c8v1qci5en44.cloudfront.net/photo/2014_12_14/b73895e69761fdb62a4a9e10294e9613_320x320.jpg")
+        assert(pubResponse.checkins.items[0].beer.bid == 7481)
+        assert(pubResponse.checkins.items[0].media.items[0].photo.photoImgMd == "https://d1c8v1qci5en44.cloudfront.net/photo/2014_12_14/b73895e69761fdb62a4a9e10294e9613_320x320.jpg")
 
     }
 
@@ -44,8 +44,8 @@ class ModelParsingTest {
     @DisplayName("Checking if check in with photo is properly serialazed")
     fun testNotDefaultPhot(){
         pubResponse = gson.fromJson(jsonStrin1,PubResponse::class.java)
-        assert(pubResponse.checkins.items.beer.bid == 7481)
-        assert(pubResponse.checkins.items.media.photo.photoImgMd == "https://d1c8v1qci5en44.cloudfront.net/photo/2014_12_14/b73895e69761fdb62a4a9e10294e9613_320x320.jpg")
+        assert(pubResponse.checkins.items[0].beer.bid == 7481)
+        assert(pubResponse.checkins.items[0].media.items[0].photo.photoImgMd == "https://d1c8v1qci5en44.cloudfront.net/photo/2014_12_14/b73895e69761fdb62a4a9e10294e9613_320x320.jpg")
 
     }
 

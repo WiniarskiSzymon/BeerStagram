@@ -69,8 +69,8 @@ class BeerImageFragment: Fragment() {
                 beerImageViewModel.getBeerImages()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext {
-                            photoList.add(it)
+                        .doOnSuccess {
+                            photoList.addAll(it)
                             viewAdapter.notifyDataSetChanged()}
                         .subscribe()
         )

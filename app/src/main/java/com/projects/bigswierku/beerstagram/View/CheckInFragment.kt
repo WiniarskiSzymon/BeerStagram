@@ -41,8 +41,8 @@ class CheckInFragment() : Fragment() {
                 checkInViewModel.getCheckIns()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext {
-                            checkInList.add(it)
+                        .doOnSuccess {
+                            checkInList.addAll(it)
                             viewAdapter.notifyDataSetChanged()
                         }
                         .subscribe()

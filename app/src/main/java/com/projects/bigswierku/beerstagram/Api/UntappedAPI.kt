@@ -41,13 +41,13 @@ class UntappedAPI {
 
 
 
-    fun getBeerInfo():Flowable<BeerInfoRequest>{
+    fun getBeerInfo():Single<BeerInfoRequest>{
         val service = retrofit.create(BeerInfoService::class.java)
         return service.getBeerInfo(clientID, clientSecret)
 
     }
 
-    fun getCheckIns():Flowable<PubLocalRequest>{
+    fun getCheckIns():Single<PubLocalRequest>{
         val service = retrofit.create(LocalCheckInService::class.java)
         return service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km")
 
