@@ -2,25 +2,19 @@ package com.projects.bigswierku.beerstagram.View
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.recyclerview.R.attr.layoutManager
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.projects.bigswierku.beerstagram.Adapters.BeerImageAdapter
-import com.projects.bigswierku.beerstagram.Adapters.CheckInsAdapter
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.ViewModel.BeerImageViewModel
-import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
+import com.projects.bigswierku.beerstagram.ViewModel.BeerImageViewModelFactory
 import com.projects.bigswierku.beerstagram.model.untapped.Photo
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class BeerImageFragment: Fragment() {
@@ -28,57 +22,50 @@ class BeerImageFragment: Fragment() {
 
 
     @Inject
-    lateinit var beerImageViewModel: BeerImageViewModel
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    lateinit var beerImageViewModelFactory: BeerImageViewModelFactory
+    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var viewAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>
+    private lateinit var viewManager: androidx.recyclerview.widget.RecyclerView.LayoutManager
     private var photoList : MutableList<Photo> =  mutableListOf()
-    private lateinit var compositeDisposable : CompositeDisposable
+    private val beerImageViewModel by lazy{
+        ViewModelProviders.of(this, beerImageViewModelFactory).get(BeerImageViewModel::class.java)
+    }
 
-//    override fun onAttach(context: Context?) {
-//        AndroidSupportInjection.inject(this)
-//
-//        super.onAttach(context)
-//        compositeDisposable = CompositeDisposable()
-//        compositeDisposable.add(
-//                beerImageViewModel.getBeerImages()
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .doOnNext {
-//                            photoList.add(it.response.beer.medias.items[0].photo)
-//                        }
-//                        .subscribe()
-//        )
-//
-//    }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+        observeBeerInfoData()
+
+    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.images_list, container, false)
-        viewManager = GridLayoutManager(this.context,2)
+        viewManager = androidx.recyclerview.widget.GridLayoutManager(this.context, 2)
         viewAdapter = BeerImageAdapter(photoList)
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.images_recycler_view).apply {
+        recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.images_recycler_view).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
-
-        compositeDisposable = CompositeDisposable()
-        compositeDisposable.add(
-                beerImageViewModel.getBeerImages()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext {
-                            photoList.add(it)
-                            viewAdapter.notifyDataSetChanged()}
-                        .subscribe()
-        )
-
+        beerImageViewModel.getBeerInfo()
         return  view
     }
 
     companion object {
         fun newInstance(): BeerImageFragment = BeerImageFragment()
+    }
+
+    private fun observeBeerInfoData() {
+        beerImageViewModel.beerInfoData.observe(this, Observer<List<Photo>>{
+            it?.let { updateAdapterWithData(it)  }
+            viewAdapter.notifyDataSetChanged()
+        })
+    }
+
+    private fun updateAdapterWithData(postList :List <Photo>){
+        photoList.clear()
+        photoList.addAll(postList)
+        viewAdapter.notifyDataSetChanged()
     }
 }

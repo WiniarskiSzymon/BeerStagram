@@ -1,6 +1,6 @@
 package com.projects.bigswierku.beerstagram.Adapters
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.checkins_item.view.*
 
-class CheckInsAdapter(val items: List<CheckInPost>) : RecyclerView.Adapter<CheckInsAdapter.ViewHolder>() {
+class CheckInsAdapter(val items: List<CheckInPost>) : androidx.recyclerview.widget.RecyclerView.Adapter<CheckInsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.checkins_item, parent, false))
@@ -31,7 +31,7 @@ class CheckInsAdapter(val items: List<CheckInPost>) : RecyclerView.Adapter<Check
     }
 
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val beerNameTextView = view.beer_name
         val breweryNameTextView = view.brewery_name
         val beerImage = view.beer_image_small

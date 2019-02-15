@@ -2,13 +2,14 @@ package com.projects.bigswierku.beerstagram.DI
 
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
+import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModelFactory
 import dagger.Module
 import dagger.Provides
 
 @Module
-abstract class CheckInFragmentModule{
+ class CheckInsFragmentModule{
 
     @Provides
-    fun provideCheckInViewModel(untappedAPI: UntappedAPI) = CheckInsViewModel(untappedAPI)
+    fun provideCheckInViewModelFactory(untappedAPI: UntappedAPI) = CheckInsViewModelFactory(untappedAPI)
 
 }

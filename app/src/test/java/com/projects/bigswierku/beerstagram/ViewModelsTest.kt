@@ -1,6 +1,6 @@
 package com.projects.bigswierku.beerstagram
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.gson.Gson
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock

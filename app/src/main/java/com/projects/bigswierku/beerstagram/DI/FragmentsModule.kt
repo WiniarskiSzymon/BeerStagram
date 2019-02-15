@@ -1,7 +1,7 @@
 package com.projects.bigswierku.beerstagram.DI
 
 import com.projects.bigswierku.beerstagram.View.BeerImageFragment
-import com.projects.bigswierku.beerstagram.View.CheckInFragment
+import com.projects.bigswierku.beerstagram.View.CheckInsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,7 +9,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentsModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeCheckInFragment(): CheckInFragment
+    abstract fun contributeCheckInFragment(): CheckInsFragment
 
 
     @ContributesAndroidInjector

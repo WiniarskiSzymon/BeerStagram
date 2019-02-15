@@ -2,12 +2,13 @@ package com.projects.bigswierku.beerstagram.DI
 
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import com.projects.bigswierku.beerstagram.ViewModel.BeerImageViewModel
+import com.projects.bigswierku.beerstagram.ViewModel.BeerImageViewModelFactory
 import dagger.Module
 import dagger.Provides
 
 @Module
-abstract class BeerImageModule{
+ class BeerImageFragmentModule{
 
     @Provides
-    fun provideBeerImageViewModel(untappedAPI: UntappedAPI) = BeerImageViewModel(untappedAPI)
+    fun provideBeerImageViewModeFactory(untappedAPI: UntappedAPI) = BeerImageViewModelFactory(untappedAPI)
 }
