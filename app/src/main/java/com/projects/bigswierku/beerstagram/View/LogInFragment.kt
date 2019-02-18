@@ -1,6 +1,7 @@
 package com.projects.bigswierku.beerstagram.View
 
 
+import android.app.Activity
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.oauth_web_viee.*
 class LogInFragment :Fragment(){
 
     private val clientID = "7BA7E574D1C0CEFCEB7FDAB198D5A68F402FC9A8"
-    private val redirectURL = ""
+    private val redirectURL = "open.my.app"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,26 +30,32 @@ class LogInFragment :Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view =  inflater.inflate(R.layout.log_in, container, false)
-        view.log_in_button.setOnClickListener {
-            logIn(clientID,redirectURL)
-        }
-
         return view
 
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        log_in_button.setOnClickListener {
+            logIn(clientID,redirectURL)
+        }
+    }
+
     private fun logIn(clientID: String, redirectURL : String) {
         val uri = with(Uri.Builder()) {
-            path("https://untappd.com/oauth/authenticate/")
-            //appendQueryParameter("client_id", clientID)
-            //appendQueryParameter("response_type", "code")
-            //appendQueryParameter("redirect_url", redirectURL)
+            scheme("https")
+            authority("untappd.com")
+            appendPath("oauth")
+            appendPath("authenticate")
+            appendPath("")
+            appendQueryParameter("client_id", clientID)
+            appendQueryParameter("response_type", "code")
+            appendQueryParameter("redirect_url", redirectURL)
             build()
         }
-        //oauth_webview.loadUrl(uri.toString())
 
-        val intent  = Intent(ACTION_VIEW, uri)
-        startActivity(intent)
+        val intent  = Intent(ACTION_VIEW, uri )
+        activity?.startActivity(intent)
     }
 
     companion object {
