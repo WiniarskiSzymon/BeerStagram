@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     }
 
                     R.id.bottombaritem_ratebeer -> {
-                    return@OnNavigationItemSelectedListener true
+                        val logInFragment = LogInFragment.newInstance()
+                        openFragment( logInFragment,"LOG_IN" )
+                        return@OnNavigationItemSelectedListener true
                     }
                 }
         false
@@ -53,6 +55,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
 
     }
+
+
     private fun openFragment(fragment: androidx.fragment.app.Fragment, name : String) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment,name)
