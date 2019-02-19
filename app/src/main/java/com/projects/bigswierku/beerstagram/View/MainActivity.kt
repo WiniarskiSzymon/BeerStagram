@@ -1,8 +1,10 @@
 package com.projects.bigswierku.beerstagram.View
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.projects.bigswierku.beerstagram.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -11,6 +13,8 @@ import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
+
+
 
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -50,18 +54,31 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.projects.bigswierku.beerstagram.R.layout.activity_main)
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
 
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val code = intent?.let{
+            it.data?.getQueryParameter("code")
+        }
+        val bundle = Bundle()
+        bundle.putString("code", code)
+        val logInFragment = supportFragmentManager.findFragmentByTag("LOG_IN")?:LogInFragment.newInstance()
+        logInFragment.arguments = bundle
+        openFragment( logInFragment,"LOG_IN" )
+    }
+
 
     private fun openFragment(fragment: androidx.fragment.app.Fragment, name : String) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment,name)
-        transaction.addToBackStack(null)
-        transaction.commit()
+
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.container, fragment, name)
+            transaction.commit()
+
     }
 
 

@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.GsonBuilder
 import com.projects.bigswierku.beerstagram.model.untapped.BeerInfoRequest
 import com.projects.bigswierku.beerstagram.model.untapped.PubLocalRequest
+import com.projects.bigswierku.beerstagram.model.untapped.TokenResponse
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,20 +29,16 @@ class UntappedAPI {
             .build()
 
     private val logger = HttpLoggingInterceptor()
+    private val service =  retrofit.create(UntappedService::class.java)
 
 
+    fun getBeerInfo(): Single<BeerInfoRequest> =service.getBeerInfo(clientID, clientSecret)
 
-    fun getBeerInfo(): Single<BeerInfoRequest> {
-        val service = retrofit.create(UntappedService::class.java)
-        return service.getBeerInfo(clientID, clientSecret)
+    fun getCheckIns():Single<PubLocalRequest> = service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km")
 
-    }
+    fun getToken(code : String):Single<TokenResponse> = service.getAuthorizationToken("https://untappd.com/oauth/authorize/",
+        clientID, clientSecret, "code", "open.my.app",code)
 
-    fun getCheckIns():Single<PubLocalRequest>{
-        val service = retrofit.create(UntappedService::class.java)
-        return service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km")
-
-    }
     private fun getLogger() : OkHttpClient{
         val  logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
