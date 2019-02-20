@@ -4,7 +4,6 @@ package com.projects.bigswierku.beerstagram.View
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import com.projects.bigswierku.beerstagram.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
-
+//TODO add single task  to this activity
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
     override fun  supportFragmentInjector()  = dispatchingAndroidInjector
@@ -29,20 +28,17 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.bottombaritem_checkins -> {
-                        val checkInFragment = CheckInsFragment.newInstance()
-                        openFragment( checkInFragment,"CHECK_IN" )
+                        openFragment( FragmentTag.CHECKIN )
                         return@OnNavigationItemSelectedListener true
                     }
 
                     R.id.bottombaritem_images -> {
-                        val beerImageFragment = BeerImageFragment.newInstance()
-                        openFragment( beerImageFragment,"BEER" )
+                        openFragment( FragmentTag.BEER )
                         return@OnNavigationItemSelectedListener true
                     }
 
                     R.id.bottombaritem_ratebeer -> {
-                        val logInFragment = LogInFragment.newInstance()
-                        openFragment( logInFragment,"LOG_IN" )
+                        openFragment( FragmentTag.LOGIN)
                         return@OnNavigationItemSelectedListener true
                     }
                 }
@@ -67,17 +63,25 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
         val bundle = Bundle()
         bundle.putString("code", code)
-        val logInFragment = supportFragmentManager.findFragmentByTag("LOG_IN")?:LogInFragment.newInstance()
-        logInFragment.arguments = bundle
-        openFragment( logInFragment,"LOG_IN" )
+        openFragment( FragmentTag.LOGIN, bundle)
     }
 
 
-    private fun openFragment(fragment: androidx.fragment.app.Fragment, name : String) {
 
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.container, fragment, name)
-            transaction.commit()
+    private fun openFragment( tag : FragmentTag, bundle :Bundle? = null  ) {
+        var fragment = supportFragmentManager.findFragmentByTag(tag.toString())
+        if(fragment == null) {
+            when (tag) {
+                FragmentTag.BEER-> fragment = BeerImageFragment.newInstance()
+                FragmentTag.CHECKIN ->fragment = CheckInsFragment.newInstance()
+                FragmentTag.LOGIN -> fragment = LogInFragment.newInstance()
+            }
+        }
+        val transaction = supportFragmentManager.beginTransaction()
+        fragment.arguments = bundle
+        transaction.replace(R.id.container, fragment, tag.toString())
+        transaction.addToBackStack(null)
+        transaction.commit()
 
     }
 

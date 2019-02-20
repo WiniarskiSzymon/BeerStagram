@@ -37,6 +37,11 @@ class BeerImageFragment: Fragment() {
         observeBeerInfoData()
 
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        beerImageViewModel.getBeerInfo()
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.images_list, container, false)
@@ -48,7 +53,6 @@ class BeerImageFragment: Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        beerImageViewModel.getBeerInfo()
         return  view
     }
 

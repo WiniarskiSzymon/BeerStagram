@@ -12,7 +12,7 @@ class CheckInsViewModelFactory @Inject constructor(private val untappedApi : Unt
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when{
-            modelClass.isAssignableFrom(CheckInsViewModel::class.java)->{
+            modelClass.isAssignableFrom(CheckInsViewModel::class.java) ->{
                 CheckInsViewModel(untappedApi) as T
             }
             else ->throw IllegalArgumentException(

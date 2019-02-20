@@ -36,7 +36,11 @@ class CheckInsFragment : Fragment() {
         observeBeerInfoStatus()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        checkInsViewModel.getCheckIns()
 
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view =  inflater.inflate(R.layout.checkins_list, container, false)
@@ -47,7 +51,6 @@ class CheckInsFragment : Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        checkInsViewModel.getCheckIns()
         return view
     }
 

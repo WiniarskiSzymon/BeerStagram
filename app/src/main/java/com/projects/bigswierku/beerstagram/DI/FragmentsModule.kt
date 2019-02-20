@@ -2,6 +2,7 @@ package com.projects.bigswierku.beerstagram.DI
 
 import com.projects.bigswierku.beerstagram.View.BeerImageFragment
 import com.projects.bigswierku.beerstagram.View.CheckInsFragment
+import com.projects.bigswierku.beerstagram.View.LogInFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -14,4 +15,7 @@ abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     abstract fun contributeBeerImageFragment(): BeerImageFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeLogInFragment() : LogInFragment
 }
