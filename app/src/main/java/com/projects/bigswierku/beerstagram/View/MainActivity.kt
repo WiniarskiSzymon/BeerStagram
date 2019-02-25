@@ -1,10 +1,12 @@
 package com.projects.bigswierku.beerstagram.View
 
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.projects.bigswierku.beerstagram.R
+import com.projects.bigswierku.beerstagram.model.untapped.TokenStatus
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -18,7 +20,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
-//TODO add single task  to this activity
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
     override fun  supportFragmentInjector()  = dispatchingAndroidInjector
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.bottombaritem_checkins -> {
-                        openFragment( FragmentTag.CHECKIN )
+                        openFragment( FragmentTag.LOCAL )
                         return@OnNavigationItemSelectedListener true
                     }
 
@@ -38,7 +39,12 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     }
 
                     R.id.bottombaritem_ratebeer -> {
-                        openFragment( FragmentTag.LOGIN)
+                        if(checkIfLogedIn()){
+                            openFragment( FragmentTag.FEED)
+                        }
+                        else{
+                            openFragment(FragmentTag.LOGIN)
+                        }
                         return@OnNavigationItemSelectedListener true
                     }
                 }
@@ -73,8 +79,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         if(fragment == null) {
             when (tag) {
                 FragmentTag.BEER-> fragment = BeerImageFragment.newInstance()
-                FragmentTag.CHECKIN ->fragment = CheckInsFragment.newInstance()
+                FragmentTag.LOCAL ->fragment = CheckInsFragment.newInstance()
                 FragmentTag.LOGIN -> fragment = LogInFragment.newInstance()
+                FragmentTag.FEED ->fragment = UserFeedFragment.newInstance()
             }
         }
         val transaction = supportFragmentManager.beginTransaction()
@@ -85,5 +92,11 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     }
 
+    private fun checkIfLogedIn(): Boolean {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return false
+        val tokenStatus = sharedPref.getString(getString(R.string.token_status), TokenStatus.NONAUTHORIZED.toString())
+        return tokenStatus == TokenStatus.AUTHORIZED.toString()
+
+    }
 
 }

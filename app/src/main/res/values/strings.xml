@@ -4,4 +4,6 @@
     <string name="images">Images</string>
     <string name="ratebeer">Ratebeer</string>
     <string name="log_in">Log In</string>
+    <string name="token">Token</string>
+    <string name="token_status">tokenStatus</string>
 </resources>

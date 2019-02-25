@@ -2,8 +2,7 @@ package com.projects.bigswierku.beerstagram.model.untapped
 
 import com.google.gson.annotations.SerializedName
 
-
-data class PubLocalRequest(
+data class UserFeedResponse(
     @SerializedName("meta")
     @Transient
     val meta: Meta,
@@ -11,5 +10,5 @@ data class PubLocalRequest(
     @Transient
     val notifications: List<Any>,
     @SerializedName("response")
-    val response : PubResponse
+    val response : UserFeed
 )

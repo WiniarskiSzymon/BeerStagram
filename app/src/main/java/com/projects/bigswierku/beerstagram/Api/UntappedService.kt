@@ -2,6 +2,7 @@ package com.projects.bigswierku.beerstagram.Api
 
 import com.projects.bigswierku.beerstagram.model.untapped.BeerInfoRequest
 import com.projects.bigswierku.beerstagram.model.untapped.PubLocalRequest
+import com.projects.bigswierku.beerstagram.model.untapped.UserFeedResponse
 import com.projects.bigswierku.beerstagram.model.untapped.TokenResponse
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -34,4 +35,9 @@ interface  UntappedService{
          @Query("redirect_url")redirectURL : String,
          @Query("code")code:String
      ):Single<TokenResponse>
+
+    @GET("checkin/recent")
+    fun getUserFeed(
+        @Query("access_token")token : String
+    ) : Single<UserFeedResponse>
 }

@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.GsonBuilder
 import com.projects.bigswierku.beerstagram.model.untapped.BeerInfoRequest
 import com.projects.bigswierku.beerstagram.model.untapped.PubLocalRequest
+import com.projects.bigswierku.beerstagram.model.untapped.UserFeedResponse
 import com.projects.bigswierku.beerstagram.model.untapped.TokenResponse
 import io.reactivex.Single
 import okhttp3.OkHttpClient
@@ -38,6 +39,8 @@ class UntappedAPI {
 
     fun getToken(code : String):Single<TokenResponse> = service.getAuthorizationToken("https://untappd.com/oauth/authorize/",
         clientID, clientSecret, "code", "open.my.app",code)
+
+    fun getUserFeed(token : String):Single<UserFeedResponse> = service.getUserFeed(token)
 
     private fun getLogger() : OkHttpClient{
         val  logging = HttpLoggingInterceptor()

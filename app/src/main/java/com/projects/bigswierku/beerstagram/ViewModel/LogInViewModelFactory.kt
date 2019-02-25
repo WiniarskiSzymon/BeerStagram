@@ -7,7 +7,7 @@ import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-class LogInViewModelFavtory @Inject constructor(private val untappedAPI: UntappedAPI): ViewModelProvider.Factory{
+class LogInViewModelFactory @Inject constructor(private val untappedAPI: UntappedAPI): ViewModelProvider.Factory{
 
 
     @Suppress("UNCHECKED_CAST")

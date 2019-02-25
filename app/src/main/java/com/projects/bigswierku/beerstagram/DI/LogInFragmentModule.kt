@@ -1,7 +1,7 @@
 package com.projects.bigswierku.beerstagram.DI
 
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
-import com.projects.bigswierku.beerstagram.ViewModel.LogInViewModelFavtory
+import com.projects.bigswierku.beerstagram.ViewModel.LogInViewModelFactory
 import dagger.Module
 import dagger.Provides
 
@@ -9,5 +9,5 @@ import dagger.Provides
 class LogInFragmentModule(){
 
     @Provides
-    fun providesLogInFragmentFactory(untappedAPI: UntappedAPI) = LogInViewModelFavtory(untappedAPI)
+    fun providesLogInFragmentFactory(untappedAPI: UntappedAPI) = LogInViewModelFactory(untappedAPI)
 }
