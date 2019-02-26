@@ -40,7 +40,10 @@ class CheckInsAdapter(val items: List<CheckInPost>) : androidx.recyclerview.widg
         val checkInCommentTextView = view.checkin_comment
 
         fun updateWithUrl(url: String) {
-            Picasso.get().load(url).into(beerImage)
+            Picasso
+                .get()
+                .load(url)
+                .into(beerImage)
         }
 
 

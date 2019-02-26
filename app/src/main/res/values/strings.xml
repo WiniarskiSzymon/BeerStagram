@@ -6,4 +6,12 @@
     <string name="log_in">Log In</string>
     <string name="token">Token</string>
     <string name="token_status">tokenStatus</string>
+    <string name="beer_name">Tango z Mango</string>
+    <string name="brewery_name">Pracownia Piwa</string>
+    <string name="rating">3.0</string>
+    <string name="beer_style">Mango IPA</string>
+    <string name="comment">Bardzo dobre piwo</string>
+    <string name="by">by</string>
+    <string name="user_name">BeerGeekJ</string>
+    <string name="rate_text">rate it at</string>
 </resources>
