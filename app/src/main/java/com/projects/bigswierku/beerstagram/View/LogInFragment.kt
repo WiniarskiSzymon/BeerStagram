@@ -43,11 +43,6 @@ class LogInFragment :Fragment(){
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
 
 
@@ -98,7 +93,6 @@ class LogInFragment :Fragment(){
     private fun observeTokenLiveData(){
         logInViewModel.tokenLiveData.observe(this, Observer<Token>{
             saveToken(it.token)
-
         })
     }
 

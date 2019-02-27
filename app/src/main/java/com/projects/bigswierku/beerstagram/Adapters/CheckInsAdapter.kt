@@ -1,29 +1,30 @@
 package com.projects.bigswierku.beerstagram.Adapters
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.projects.bigswierku.beerstagram.R
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
+import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.checkins_item.view.*
 
-class CheckInsAdapter(val items: List<CheckInPost>) : androidx.recyclerview.widget.RecyclerView.Adapter<CheckInsAdapter.ViewHolder>() {
+class CheckInsAdapter(val items: List<ImagePost>) : androidx.recyclerview.widget.RecyclerView.Adapter<CheckInsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.checkins_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.beerNameTextView.text= items[position].beerName
-        holder.breweryNameTextView.text = items[position].breweryName
-        holder.updateWithUrl(items[position].bigPhotoUrl?: "")
-        holder.berrStyleTextView.text = items[position].beerStyle
-        holder.beerRatingTextView.text = items[position].rating.toString()
-        holder.checkInCommentTextView.text = items[position].checkinComment
-
-
+        holder.apply {
+            beerNameTextView.text = items[position].beerName
+            breweryNameTextView.text = items[position].breweryName
+            updateWithUrl(items[position].bigPhotoUrl ?: "")
+            berrStyleTextView.text = items[position].beerStyle
+            beerRatingTextView.text = items[position].rating.toString()
+            if (items[position].checkinComment.isNotBlank()) {
+                checkInCommentTextView.text = items[position].checkinComment
+            } else checkInCommentTextView.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {

@@ -3,9 +3,8 @@ package com.projects.bigswierku.beerstagram.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
-import com.projects.bigswierku.beerstagram.toPost
-import io.reactivex.Flowable
+import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
+import com.projects.bigswierku.beerstagram.toImagePost
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -17,7 +16,7 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
     private lateinit var disposable: Disposable
 
 
-    var checkInsData: MutableLiveData<List<CheckInPost>> = MutableLiveData()
+    var checkInsData: MutableLiveData<List<ImagePost>> = MutableLiveData()
     var checkInsResponseStatus: MutableLiveData<ResponseStatus> = MutableLiveData()
 
     fun getCheckIns() {
@@ -29,7 +28,7 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
             .subscribe(
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.SUCCESS)
-                    checkInsData.value = it.response.checkins.items.map { it.toPost() }
+                    checkInsData.value = it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty() }
                 },
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.ERROR, it.message)

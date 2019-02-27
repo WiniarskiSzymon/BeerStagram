@@ -8,7 +8,7 @@ import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import com.projects.bigswierku.beerstagram.ViewModel.BeerImageViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
 import com.projects.bigswierku.beerstagram.model.untapped.BeerResponse
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
+import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
 import com.projects.bigswierku.beerstagram.model.untapped.Photo
 import com.projects.bigswierku.beerstagram.model.untapped.PubResponse
 import io.reactivex.Flowable
@@ -38,7 +38,7 @@ class ViewModelsTest{
     @InjectMocks
     private lateinit var beerImageViewModelMock : BeerImageViewModel
 
-    private lateinit var checkInsTestSubscriber : TestSubscriber<CheckInPost>
+    private lateinit var checkInsTestSubscriber : TestSubscriber<ImagePost>
     private lateinit var beerImageTestSubscriber : TestSubscriber<Photo>
     private lateinit var gson: Gson
     private lateinit var checkInRespons : PubResponse

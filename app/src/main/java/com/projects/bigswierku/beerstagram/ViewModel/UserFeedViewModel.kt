@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
-import com.projects.bigswierku.beerstagram.toPost
-import io.reactivex.Scheduler
+import com.projects.bigswierku.beerstagram.toCheckInPost
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -26,7 +25,7 @@ class UserFeedViewModel @Inject constructor(private val untappedAPI: UntappedAPI
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe{responseStatus.value = ResponseStatus(Status.SUCCESS) }
             .subscribe(
-                {   userFeedLiveData.value = it.response.checkins.items.map{it.toPost()}
+                {   userFeedLiveData.value = it.response.checkins.items.map{it.toCheckInPost()}
                     responseStatus.value = ResponseStatus(Status.SUCCESS) },
                 {responseStatus.value = ResponseStatus(Status.ERROR,it.message) }
             )

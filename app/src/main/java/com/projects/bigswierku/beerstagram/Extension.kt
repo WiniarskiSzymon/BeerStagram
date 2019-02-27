@@ -1,25 +1,23 @@
 package com.projects.bigswierku.beerstagram
 
-import android.content.Context
 import com.projects.bigswierku.beerstagram.model.untapped.CheckIn
 import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
-import com.squareup.picasso.Picasso
-import java.io.File
+import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
 
-fun CheckIn.toPost()=
+fun CheckIn.toImagePost()=
         when (this.media.items.size){
-            0-> CheckInPost(
+            0-> ImagePost(
                     this.checkinComment,
                     this.checkinId,
                     this.beer.beerName,
                     this.beer.beerStyle,
                     this.brewery.breweryName,
                     this.venue.venueName,
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPJDTG-CWgWfHInMFS6FlJVVHWxdefYXuOAyg3xzEKeYQp1nIU0w",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPJDTG-CWgWfHInMFS6FlJVVHWxdefYXuOAyg3xzEKeYQp1nIU0w",
+                null,
+                null,
                     this.ratingScore
             )
-            else -> CheckInPost(
+            else -> ImagePost(
                 this.checkinComment,
                 this.checkinId,
                 this.beer.beerName,
@@ -33,6 +31,16 @@ fun CheckIn.toPost()=
         }
 
 
-
-
+fun CheckIn.toCheckInPost()=CheckInPost(
+    this.checkinComment,
+    this.checkinId,
+    this.beer.beerName,
+    this.beer.beerStyle,
+    this.brewery.breweryName,
+    this.venue.venueName,
+    this.createdAt,
+    this.user.userAvatar,
+    this.beer.beerLabel,
+    this.ratingScore
+    )
 

@@ -13,8 +13,9 @@ import com.projects.bigswierku.beerstagram.Adapters.CheckInsAdapter
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModelFactory
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
+import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class CheckInsFragment : Fragment() {
@@ -24,7 +25,7 @@ class CheckInsFragment : Fragment() {
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var viewAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>
     private lateinit var viewManager: androidx.recyclerview.widget.RecyclerView.LayoutManager
-    private var checkInList : MutableList<CheckInPost> =  mutableListOf()
+    private var imageList : MutableList<ImagePost> =  mutableListOf()
     private val checkInsViewModel by lazy {
         ViewModelProviders.of(this,checkInViewModelFactory).get(CheckInsViewModel::class.java)
     }
@@ -43,9 +44,9 @@ class CheckInsFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val view =  inflater.inflate(R.layout.checkins_list, container, false)
+        val view =  inflater.inflate(R.layout.checkins_list, fragment_container, false)
         viewManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
-        viewAdapter = CheckInsAdapter(checkInList)
+        viewAdapter = CheckInsAdapter(imageList)
         recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.checkins_recycler_view).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -63,21 +64,21 @@ class CheckInsFragment : Fragment() {
     }
 
     private fun observeBeerInfoData() {
-        checkInsViewModel.checkInsData.observe(this, Observer<List<CheckInPost>>{
+        checkInsViewModel.checkInsData.observe(this, Observer<List<ImagePost>>{
         it?.let { updateAdapterWithData(it)  }
         viewAdapter.notifyDataSetChanged()
         })
     }
 
-    private fun updateAdapterWithData(postList :List <CheckInPost>){
-        checkInList.clear()
-        checkInList.addAll(postList)
+    private fun updateAdapterWithData(postList :List <ImagePost>){
+        imageList.clear()
+        imageList.addAll(postList)
         viewAdapter.notifyDataSetChanged()
     }
 
 
 
-    private fun getCheckInInfo(checkInPost: CheckInPost){
+    private fun getCheckInInfo(imagePost: ImagePost){
     //TODO
 
     }
