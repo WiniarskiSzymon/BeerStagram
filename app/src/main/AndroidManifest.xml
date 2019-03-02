@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.VIEW" />
                 <data android:scheme="https" android:host="untappd.com"
-                android:pathPrefix="/oauth/open.my.app" />
+                android:pathPrefix="/oauth/authenticate/open.my.app" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

@@ -3,4 +3,7 @@
     <color name="colorPrimary">#CBCEDE</color>
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#ff4081</color>
+    <color name="local_color">#5b9db7</color>
+    <color name="search_color">#5b9db7</color>
+    <color name="user_feed_color">#5b9db7</color>
 </resources>
