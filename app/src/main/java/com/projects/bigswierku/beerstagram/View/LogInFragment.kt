@@ -34,25 +34,19 @@ class LogInFragment :Fragment(){
     private val logInViewModel by lazy {
         ViewModelProviders.of(this, logInViewModelFavtory).get(LogInViewModel::class.java)
     }
-    private val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
         observeTokenLiveData()
         observeResponseStatus()
-
     }
-
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-
         val view =  inflater.inflate(R.layout.log_in, container, false)
-
         return view
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -61,17 +55,18 @@ class LogInFragment :Fragment(){
             logIn(clientID,redirectURL)
         }
 
-
     }
 
     override fun onResume() {
         super.onResume()
-        code = this.arguments?.getString("code")
-        //initLiveData(
-        code?.let {
-            logInViewModel.getAuthorizationToken(it)
+        if(!checkIfLogedIn()) {
+            code = this.arguments?.getString("code")
+            code?.let {
+                logInViewModel.getAuthorizationToken(it)
+            }
         }
     }
+
 
     private fun logIn(clientID: String, redirectURL : String) {
         val uri = with(Uri.Builder()) {
@@ -97,6 +92,7 @@ class LogInFragment :Fragment(){
     }
 
     private fun saveToken(token : String){
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         sharedPref?.edit().let{
             it?.putString(getString(R.string.token), token)
             it?.commit()
@@ -115,11 +111,18 @@ class LogInFragment :Fragment(){
 
 
     private fun setTokenStatus(status: TokenStatus){
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
             sharedPref?.edit().let{
                 it?.putString(getString(R.string.token_status), status.toString())
                 it?.commit()
             }
         }
+
+    private fun checkIfLogedIn(): Boolean {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return false
+        val tokenStatus = sharedPref.getString(getString(R.string.token_status), TokenStatus.NONAUTHORIZED.toString())
+        return tokenStatus == TokenStatus.AUTHORIZED.toString()
+    }
 
     companion object {
         fun newInstance(): LogInFragment = LogInFragment()

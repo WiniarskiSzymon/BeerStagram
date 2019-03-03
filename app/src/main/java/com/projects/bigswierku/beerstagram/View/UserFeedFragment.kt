@@ -31,7 +31,6 @@ class UserFeedFragment : Fragment(){
     private lateinit var viewAdapter : RecyclerView.Adapter<*>
     private lateinit var viewManager : RecyclerView.LayoutManager
     private var userFeedList : MutableList<CheckInPost> = mutableListOf()
-    private var token : String? =""
     private val userFeedViewModel by lazy {
         ViewModelProviders.of(this,userFeedViewModelFactory).get(UserFeedViewModel::class.java)
     }
@@ -45,13 +44,17 @@ class UserFeedFragment : Fragment(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(checkIfLogedIn()) {
-           token =  getSavedToken()
+            val  token =  getSavedToken()
+            token?.let{
+                userFeedViewModel.getUserFeed(token)
+            }
         }
 
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val view = inflater.inflate(R.layout.user_feed_list,fragment_container,false)
+        val view = inflater.inflate(R.layout.user_feed_list,container,false)
         viewManager = LinearLayoutManager(this.context)
         viewAdapter = UserFeedAdapter(userFeedList)
         recyclerView = view.findViewById<RecyclerView>(R.id.user_feed_recycler_view).apply{
@@ -77,12 +80,13 @@ class UserFeedFragment : Fragment(){
             }
         )
     }
+
     private fun checkIfLogedIn(): Boolean {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return false
         val tokenStatus = sharedPref.getString(getString(R.string.token_status), TokenStatus.NONAUTHORIZED.toString())
         return tokenStatus == TokenStatus.AUTHORIZED.toString()
-
     }
+
     private fun getSavedToken(): String?{
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         return sharedPref?.getString(getString(R.string.token), "")

@@ -25,11 +25,12 @@ class UserFeedViewModel @Inject constructor(private val untappedAPI: UntappedAPI
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe{responseStatus.value = ResponseStatus(Status.SUCCESS) }
             .subscribe(
-                {   userFeedLiveData.value = it.response.checkins.items.map{it.toCheckInPost()}
-                    responseStatus.value = ResponseStatus(Status.SUCCESS) },
+                {
+                    userFeedLiveData.value = it.response.checkins.items.map{it.toCheckInPost()}
+                    responseStatus.value = ResponseStatus(Status.SUCCESS)
+                },
                 {responseStatus.value = ResponseStatus(Status.ERROR,it.message) }
             )
-
     }
 
 

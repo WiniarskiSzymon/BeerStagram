@@ -35,23 +35,23 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(com.projects.bigswierku.beerstagram.R.layout.activity_main)
         openFragment( FragmentTag.LOCAL )
-//        local_beers_action.setOnClickListener {
-//            openFragment( FragmentTag.LOCAL )
-//            select(R.id.local_beers_action)
-//        }
-//        search_beer_action.setOnClickListener {
-//            openFragment( FragmentTag.BEER )
-//            select(R.id.search_beer_action)
-//        }
-//        user_feed_action.setOnClickListener {
-//            if(checkIfLogedIn()){
-//                openFragment( FragmentTag.FEED)
-//            }
-//            else{
-//                openFragment(FragmentTag.LOGIN)
-//            }
-//            select(R.id.user_feed_action)
-//        }
+        local_beers_action.setOnClickListener {
+            openFragment( FragmentTag.LOCAL )
+            select(R.id.local_beers_action)
+        }
+        search_beer_action.setOnClickListener {
+            openFragment( FragmentTag.BEER )
+            select(R.id.search_beer_action)
+        }
+        user_feed_action.setOnClickListener {
+            if(checkIfLogedIn()){
+                openFragment( FragmentTag.FEED)
+            }
+            else{
+                openFragment(FragmentTag.LOGIN)
+            }
+            select(R.id.user_feed_action)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
-import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.user_feed_item.view.*
 

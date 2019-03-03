@@ -45,7 +45,7 @@ class BeerImageFragment: Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val view = inflater.inflate(R.layout.images_list, fragment_container, false)
+        val view = inflater.inflate(R.layout.images_list, container, false)
         viewManager = androidx.recyclerview.widget.GridLayoutManager(this.context, 2)
         viewAdapter = BeerImageAdapter(photoList)
 

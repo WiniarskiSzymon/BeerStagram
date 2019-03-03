@@ -44,7 +44,7 @@ class CheckInsFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
-        val view =  inflater.inflate(R.layout.checkins_list, fragment_container, false)
+        val view =  inflater.inflate(R.layout.checkins_list, container, false)
         viewManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
         viewAdapter = CheckInsAdapter(imageList)
         recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.checkins_recycler_view).apply {
