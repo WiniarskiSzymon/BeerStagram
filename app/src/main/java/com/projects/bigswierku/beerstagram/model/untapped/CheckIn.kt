@@ -31,5 +31,5 @@ data class CheckIn(
         @SerializedName("user")
     val user: User,
         @SerializedName("venue")
-    val venue: Venue
+    val venue: List<Venue>
 )

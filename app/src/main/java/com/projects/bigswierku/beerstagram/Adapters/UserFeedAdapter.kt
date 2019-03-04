@@ -20,13 +20,27 @@ class UserFeedAdapter(val  items: List<CheckInPost>) : RecyclerView.Adapter<User
     }
 
     override fun onBindViewHolder(holder: UserFeedAdapter.ViewHolder, position: Int) {
-        Picasso.get()
-            .load(items[position].beerLabel)
-            .into(holder.userAvatar )
+        holder.apply {
+            friendName.text = items[position].userName
+            beerName.text = items[position].beerName
+            drinkTime.text = items[position].timeFromNow
+            comment.text = items[position].checkinComment
+            Picasso.get()
+                .load(items[position].beerLabel)
+                .into(beerLabel)
+            Picasso.get()
+                .load(items[position].userAvatar)
+                .into(userAvatar)
+        }
     }
 
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
-        val userAvatar = view.avatar
+        val beerLabel = view.beer_label
+        val friendName = view.friend_name
+        val beerName = view.beer_name_feed
+        val userAvatar = view.user_avatar
+        val drinkTime = view.drink_time
+        val comment = view.friend_comment
 
     }
 }

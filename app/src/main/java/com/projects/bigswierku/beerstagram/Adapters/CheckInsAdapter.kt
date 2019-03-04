@@ -33,7 +33,7 @@ class CheckInsAdapter(val items: List<ImagePost>) : androidx.recyclerview.widget
 
 
     class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
-        val beerNameTextView = view.beer_name
+        val beerNameTextView = view.beer_name_feed
         val breweryNameTextView = view.brewery_name
         val beerImage = view.beer_image_small
         val beerRatingTextView = view.beer_rating

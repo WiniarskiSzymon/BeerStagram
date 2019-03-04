@@ -4,13 +4,14 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.GsonBuilder
-import com.projects.bigswierku.beerstagram.model.untapped.BeerInfoRequest
-import com.projects.bigswierku.beerstagram.model.untapped.PubLocalRequest
-import com.projects.bigswierku.beerstagram.model.untapped.UserFeedResponse
-import com.projects.bigswierku.beerstagram.model.untapped.TokenResponse
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import com.google.gson.Gson
+
+import com.projects.bigswierku.beerstagram.model.untapped.*
+
+
 
 
 class UntappedAPI {
@@ -18,7 +19,9 @@ class UntappedAPI {
     private  val clientID = "7BA7E574D1C0CEFCEB7FDAB198D5A68F402FC9A8"
     private val clientSecret = "140D0F35382F22C9398413ADF865728F85016DA0"
 
+
     private val gson = GsonBuilder()
+        .registerTypeAdapterFactory(SingletonListTypeAdapterFactory())
             .setLenient()
             .create()
 
