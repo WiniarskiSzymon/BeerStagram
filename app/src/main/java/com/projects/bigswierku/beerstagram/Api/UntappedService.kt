@@ -23,7 +23,8 @@ interface  UntappedService{
             @Query("client_secret")clientSecret : String,
             @Query("lat")lat : String,
             @Query("lng")lng : String,
-            @Query("dist_pref") dist_pref : String
+            @Query("dist_pref") dist_pref : String,
+            @Query("max_id")lastId : String
     ):Single<PubLocalRequest>
 
      @GET

@@ -18,17 +18,24 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
 
     var checkInsData: MutableLiveData<List<ImagePost>> = MutableLiveData()
     var checkInsResponseStatus: MutableLiveData<ResponseStatus> = MutableLiveData()
+    private var listOfImagePosts = mutableListOf<ImagePost>()
 
-    fun getCheckIns() {
+    fun getCheckIns( lastId  : Int = 0) {
 
-        disposable = untappedAPI.getCheckIns()
+        disposable = untappedAPI.getCheckIns(lastId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { checkInsResponseStatus.value = ResponseStatus(Status.LOADING) }
             .subscribe(
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.SUCCESS)
-                    checkInsData.value = it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty() }
+                    if(lastId ==0) {
+                        listOfImagePosts.addAll( it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty() })
+                    }else {
+                        listOfImagePosts.clear()
+                        listOfImagePosts.addAll(it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty()})
+                    }
+                    checkInsData.value  =listOfImagePosts
                 },
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.ERROR, it.message)

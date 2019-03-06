@@ -18,34 +18,63 @@
             tools:layout_editor_absoluteX="9dp" android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
-                android:id="@+id/beer_label"
+        <androidx.cardview.widget.CardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:elevation="12dp"
+                android:id="@+id/view2"
+                app:cardCornerRadius="30dp"
+                android:layout_centerHorizontal="true"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
                 app:layout_constraintStart_toEndOf="@+id/drinked_text_vire"
                 app:layout_constraintTop_toTopOf="@+id/drinked_text_vire"
-                app:layout_constraintBottom_toBottomOf="@+id/drinked_text_vire"
-                android:layout_marginStart="4dp"/>
+                app:layout_constraintBottom_toBottomOf="@+id/drinked_text_vire" android:layout_marginStart="4dp">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:srcCompat="@tools:sample/avatars"
+                    android:id="@+id/beer_label"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:elevation="12dp"
+                android:id="@+id/user_avatar_card"
+                app:cardCornerRadius="30dp"
+                android:layout_centerHorizontal="true"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" tools:srcCompat="@tools:sample/avatars"
                 android:id="@+id/user_avatar"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-        />
+                />
+        </androidx.cardview.widget.CardView>
+
         <TextView
                 android:text="Prunum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/beer_name_feed"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/user_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/user_avatar_card"
                 app:layout_constraintStart_toStartOf="parent"/>
         <TextView
                 android:text="Beergeek"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/friend_name"
-                app:layout_constraintStart_toEndOf="@+id/user_avatar" android:layout_marginStart="8dp"
-                app:layout_constraintTop_toTopOf="@+id/user_avatar"
-                app:layout_constraintBottom_toBottomOf="@+id/user_avatar"/>
+                app:layout_constraintStart_toEndOf="@+id/user_avatar_card"
+                android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@+id/user_avatar_card"
+                app:layout_constraintBottom_toBottomOf="@+id/user_avatar_card"/>
         <TextView
                 android:text="12:00"
                 android:layout_width="wrap_content"
@@ -56,11 +85,12 @@
                 android:text="3.75"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/friend_rating"
-                app:layout_constraintStart_toEndOf="@+id/beer_label" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@+id/view2"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="@+id/beer_label"
+                app:layout_constraintTop_toTopOf="@+id/view2"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/beer_label"/>
+                app:layout_constraintBottom_toBottomOf="@+id/view2"/>
         <TextView
                 android:text="Dobre"
                 android:layout_width="wrap_content"

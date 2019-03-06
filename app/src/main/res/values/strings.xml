@@ -14,4 +14,8 @@
     <string name="by">by</string>
     <string name="user_name">BeerGeekJ</string>
     <string name="rate_text">rate it at</string>
+    <string name="error_alert_ok">OK</string>
+    <string name="error_alert_more_info">More information</string>
+    <string name="error_alert_title">Connection problem</string>
+    <string name="error_alert_message">Sorry there was a connection problem while trying to get your query.</string>
 </resources>

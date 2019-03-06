@@ -27,7 +27,9 @@ class UserFeedAdapter(val  items: List<CheckInPost>) : RecyclerView.Adapter<User
             comment.text = items[position].checkinComment
             Picasso.get()
                 .load(items[position].beerLabel)
+                .fit()
                 .into(beerLabel)
+
             Picasso.get()
                 .load(items[position].userAvatar)
                 .into(userAvatar)

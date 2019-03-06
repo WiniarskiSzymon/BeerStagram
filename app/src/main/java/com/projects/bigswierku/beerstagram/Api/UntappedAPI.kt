@@ -38,7 +38,7 @@ class UntappedAPI {
 
     fun getBeerInfo(): Single<BeerInfoRequest> =service.getBeerInfo(clientID, clientSecret)
 
-    fun getCheckIns():Single<PubLocalRequest> = service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km")
+    fun getCheckIns(lastId: Int):Single<PubLocalRequest> = service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km", lastId.toString())
 
     fun getToken(code : String):Single<TokenResponse> = service.getAuthorizationToken("https://untappd.com/oauth/authorize/",
         clientID, clientSecret, "code", "open.my.app",code)
