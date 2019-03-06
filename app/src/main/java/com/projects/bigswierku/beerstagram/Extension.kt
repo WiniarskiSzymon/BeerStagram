@@ -3,9 +3,7 @@ package com.projects.bigswierku.beerstagram
 import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
-import com.projects.bigswierku.beerstagram.model.untapped.CheckIn
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
-import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
+import com.projects.bigswierku.beerstagram.model.untapped.*
 
 fun CheckIn.toImagePost()=
         when (this.media.items.size){
@@ -61,6 +59,16 @@ fun CheckIn.toCheckInPost()=
             this.ratingScore
         )
     }
+
+fun BeerSearchResultItem.toBeeeSearchresult() = BeerSearchResult(
+    this.beer.beerName,
+    this.brewery.breweryName,
+    this.beer.beerDescription,
+    this.brewery.countryName,
+    this.beer.bid,
+    this.beer.beerLabel,
+    this.checkinCount
+)
 
  fun Context.showMyDialog(errorMessage:String?) {
     val builder = AlertDialog.Builder(this)

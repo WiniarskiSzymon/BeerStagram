@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+
+    <ImageView
+            android:id="@+id/beer_search_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="image"
+            tools:srcCompat="@tools:sample/avatars"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="16dp"
+            tools:layout_editor_absoluteX="191dp" android:id="@+id/beer_search_name"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="59dp"
+            tools:layout_editor_absoluteX="196dp" android:id="@+id/beer_search_country"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="102dp"
+            tools:layout_editor_absoluteX="201dp" android:id="@+id/beer_search_descrption"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:layout_editor_absoluteY="20dp"
+            tools:layout_editor_absoluteX="294dp" android:id="@+id/brewer_search_name"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,6 @@ class UntappedAPI {
     private  val clientID = "7BA7E574D1C0CEFCEB7FDAB198D5A68F402FC9A8"
     private val clientSecret = "140D0F35382F22C9398413ADF865728F85016DA0"
 
-
     private val gson = GsonBuilder()
         .registerTypeAdapterFactory(SingletonListTypeAdapterFactory())
             .setLenient()
@@ -32,9 +31,7 @@ class UntappedAPI {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
-    private val logger = HttpLoggingInterceptor()
     private val service =  retrofit.create(UntappedService::class.java)
-
 
     fun getBeerInfo(): Single<BeerInfoRequest> =service.getBeerInfo(clientID, clientSecret)
 
@@ -44,6 +41,8 @@ class UntappedAPI {
         clientID, clientSecret, "code", "open.my.app",code)
 
     fun getUserFeed(token : String):Single<UserFeedResponse> = service.getUserFeed(token)
+
+    fun searchBeer(query:String) : Single<BeerSearchResponse> = service.searchBeer(clientID, clientSecret,query)
 
     private fun getLogger() : OkHttpClient{
         val  logging = HttpLoggingInterceptor()

@@ -1,9 +1,6 @@
 package com.projects.bigswierku.beerstagram.Api
 
-import com.projects.bigswierku.beerstagram.model.untapped.BeerInfoRequest
-import com.projects.bigswierku.beerstagram.model.untapped.PubLocalRequest
-import com.projects.bigswierku.beerstagram.model.untapped.UserFeedResponse
-import com.projects.bigswierku.beerstagram.model.untapped.TokenResponse
+import com.projects.bigswierku.beerstagram.model.untapped.*
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -41,4 +38,11 @@ interface  UntappedService{
     fun getUserFeed(
         @Query("access_token")token : String
     ) : Single<UserFeedResponse>
+
+    @GET("search/beer")
+    fun searchBeer(
+        @Query("client_id")clientID: String,
+        @Query("client_secret")clientSecret : String,
+        @Query("q")query : String
+    ):Single<BeerSearchResponse>
 }
