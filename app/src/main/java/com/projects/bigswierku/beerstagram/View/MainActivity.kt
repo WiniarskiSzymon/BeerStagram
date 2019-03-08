@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             select(R.id.local_beers_action)
         }
         search_beer_action.setOnClickListener {
-            openFragment( FragmentTag.BEER )
+            openFragment( FragmentTag.SEARCH )
             select(R.id.search_beer_action)
         }
         user_feed_action.setOnClickListener {
@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 FragmentTag.LOCAL ->fragment = CheckInsFragment.newInstance()
                 FragmentTag.LOGIN -> fragment = LogInFragment.newInstance()
                 FragmentTag.FEED ->fragment = UserFeedFragment.newInstance()
+                FragmentTag.SEARCH ->fragment = BeerSearchFragment.newInstance()
             }
         }
         val transaction = supportFragmentManager.beginTransaction()

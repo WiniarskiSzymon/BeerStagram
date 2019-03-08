@@ -4,7 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.model.untapped.BeerSearchResult
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.search_item.view.*
 
 
 class BeerSearchAdapter(val items : List<BeerSearchResult>) : RecyclerView.Adapter<BeerSearchAdapter.ViewHolder>(){
@@ -19,10 +22,21 @@ class BeerSearchAdapter(val items : List<BeerSearchResult>) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: BeerSearchAdapter.ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        holder.apply {
+            beerName.text = items[position].beerName
+            breweryName.text = items[position].breweryName
+            breweryCountry.text = items[position].originCountry
+            beerDescription.text = items[position].description
+            Picasso.get().load(items[position].beerLabel).into(beerLabel)
+        }
     }
 
     class  ViewHolder(view : View): RecyclerView.ViewHolder(view){
+        val beerLabel = view.beer_search_label
+        val beerName = view.beer_search_name
+        val breweryName = view.brewer_search_name
+        val breweryCountry = view.beer_search_country
+        val beerDescription = view.beer_search_descrption
 
     }
 }
