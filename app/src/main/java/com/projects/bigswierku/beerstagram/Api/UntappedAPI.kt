@@ -33,7 +33,7 @@ class UntappedAPI {
 
     private val service =  retrofit.create(UntappedService::class.java)
 
-    fun getBeerInfo(): Single<BeerInfoRequest> =service.getBeerInfo(clientID, clientSecret)
+    fun getBeerInfo(beerID : String): Single<BeerInfoRequest> =service.getBeerInfo(beerID,clientID, clientSecret)
 
     fun getCheckIns(lastId: Int):Single<PubLocalRequest> = service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km", lastId.toString())
 

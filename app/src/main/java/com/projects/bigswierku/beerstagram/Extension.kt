@@ -16,7 +16,8 @@ fun CheckIn.toImagePost()=
                     this.venue[0].venueName,
                     null,
                     null,
-                    this.ratingScore
+                    this.ratingScore,
+                    this.user.userName
             )
             else -> ImagePost(
                 this.checkinComment,
@@ -27,7 +28,8 @@ fun CheckIn.toImagePost()=
                 this.venue[0].venueName,
                 this.media.items[0].photo.photoImgLg,
                 this.media.items[0].photo.photoImgSm,
-                this.ratingScore
+                this.ratingScore,
+                this.user.userName
             )
         }
 

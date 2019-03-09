@@ -11,4 +11,5 @@ data class ImagePost(
         val cityName: String,
         val bigPhotoUrl : String?,
         val smallPhotoUrl : String?,
-        val rating: Double )
+        val rating: Double,
+        val userName : String)

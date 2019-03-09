@@ -21,6 +21,7 @@ class CheckInsAdapter(val items: List<ImagePost>) : androidx.recyclerview.widget
             updateWithUrl(items[position].bigPhotoUrl ?: "")
             berrStyleTextView.text = items[position].beerStyle
             beerRatingTextView.text = items[position].rating.toString()
+            beerDrinker.text =items[position].userName
             if (items[position].checkinComment.isNotBlank()) {
                 checkInCommentTextView.text = items[position].checkinComment
             } else checkInCommentTextView.visibility = View.GONE
@@ -39,6 +40,7 @@ class CheckInsAdapter(val items: List<ImagePost>) : androidx.recyclerview.widget
         val beerRatingTextView = view.beer_rating
         val berrStyleTextView = view.beer_style
         val checkInCommentTextView = view.checkin_comment
+        val beerDrinker = view.user_name
 
         fun updateWithUrl(url: String) {
             Picasso

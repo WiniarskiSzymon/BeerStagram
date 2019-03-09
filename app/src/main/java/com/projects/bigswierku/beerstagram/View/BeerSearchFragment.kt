@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.search_list.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import rx.android.schedulers.AndroidSchedulers
-
+import java.text.FieldPosition
 
 
 class BeerSearchFragment: Fragment() {
@@ -37,19 +37,36 @@ class BeerSearchFragment: Fragment() {
         ViewModelProviders.of(this, beerSearchViewModelFactory).get(BeerSearchViewModel::class.java)
     }
 
+    companion object {
+        fun newInstance(): BeerSearchFragment = BeerSearchFragment()
+    }
+
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
         observeBeerSearchData()
+    }
 
+    private fun observeBeerSearchData() {
+        beerSearchViewModel.beerSearchData.observe(this, Observer<List<BeerSearchResult>>{
+            it?.let {
+                updateAdapterWithData(it)
+                viewAdapter.notifyDataSetChanged()
+            }
+        })
+    }
+
+    private fun updateAdapterWithData(postList :List <BeerSearchResult>){
+        resultList.clear()
+        resultList.addAll(postList)
+        viewAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.search_list, container, false)
         viewManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
-        viewAdapter = BeerSearchAdapter(resultList)
-
+        viewAdapter = BeerSearchAdapter(resultList){beerID : Int ->openBeerImageFragment(beerID )}
         recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.search_recycler_view).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -58,12 +75,16 @@ class BeerSearchFragment: Fragment() {
         return  view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initSearchBar()
+    private fun openBeerImageFragment(beerId : Int){
+        val act = activity as MainActivity
+        val bundle = Bundle()
+        bundle.putString("beerID", beerId.toString())
+        act.openFragment(FragmentTag.BEER, bundle)
     }
-    companion object {
-        fun newInstance(): BeerSearchFragment = BeerSearchFragment()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initSearchBar()
     }
 
     private fun initSearchBar() {
@@ -77,18 +98,5 @@ class BeerSearchFragment: Fragment() {
             .subscribe {
                 beerSearchViewModel.searchForBeer(it.toString())
             }
-    }
-
-    private fun observeBeerSearchData() {
-        beerSearchViewModel.beerSearchData.observe(this, Observer<List<BeerSearchResult>>{
-            it?.let { updateAdapterWithData(it)  }
-            viewAdapter.notifyDataSetChanged()
-        })
-    }
-
-    private fun updateAdapterWithData(postList :List <BeerSearchResult>){
-        resultList.clear()
-        resultList.addAll(postList)
-        viewAdapter.notifyDataSetChanged()
     }
 }

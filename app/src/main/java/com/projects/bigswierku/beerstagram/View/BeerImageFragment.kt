@@ -28,6 +28,7 @@ class BeerImageFragment: Fragment() {
     private lateinit var viewAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>
     private lateinit var viewManager: androidx.recyclerview.widget.RecyclerView.LayoutManager
     private var photoList : MutableList<Photo> =  mutableListOf()
+    private var lastBeerId :String? = null
     private val beerImageViewModel by lazy{
         ViewModelProviders.of(this, beerImageViewModelFactory).get(BeerImageViewModel::class.java)
     }
@@ -39,10 +40,6 @@ class BeerImageFragment: Fragment() {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        beerImageViewModel.getBeerInfo()
-    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.images_list, container, false)
@@ -55,6 +52,16 @@ class BeerImageFragment: Fragment() {
             adapter = viewAdapter
         }
         return  view
+    }
+    override fun onResume(){
+        super.onResume()
+        val beerID = this.arguments?.getString("beerID")
+        beerID?.let{
+            if(it!= lastBeerId){
+                beerImageViewModel.getBeerInfo(it)
+                lastBeerId = beerID
+            }
+        }
     }
 
     companion object {

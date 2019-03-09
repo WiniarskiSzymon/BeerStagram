@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
 
 
-    private fun openFragment( tag : FragmentTag, bundle :Bundle? = null  ) {
+    fun openFragment( tag : FragmentTag, bundle :Bundle? = null  ) {
         var fragment = supportFragmentManager.findFragmentByTag(tag.toString())
         if(fragment == null) {
             when (tag) {

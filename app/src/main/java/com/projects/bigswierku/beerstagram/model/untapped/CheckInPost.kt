@@ -10,4 +10,5 @@ data class CheckInPost(
     val timeFromNow : String,
     val userAvatar : String?,
     val beerLabel : String,
-    val rating: Double )
+    val rating: Double
+)

@@ -19,9 +19,9 @@ class BeerImageViewModel @Inject constructor(val untappedAPI: UntappedAPI) : Vie
     var beerInfoData: MutableLiveData<List<Photo>> = MutableLiveData()
     var beerInfoRequestStatus: MutableLiveData<ResponseStatus> = MutableLiveData()
 
-    fun getBeerInfo() {
+    fun getBeerInfo(beerID:String) {
 
-        disposable = untappedAPI.getBeerInfo()
+        disposable = untappedAPI.getBeerInfo(beerID)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { beerInfoRequestStatus.value = ResponseStatus(Status.LOADING) }
