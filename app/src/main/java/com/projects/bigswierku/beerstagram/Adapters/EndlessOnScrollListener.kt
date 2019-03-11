@@ -3,7 +3,9 @@ package com.projects.bigswierku.beerstagram.Adapters
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class EndlessOnScrollListener(val getMoreData: ()-> Unit,
+class EndlessOnScrollListener(val onScrollUp: ()-> Unit ={},
+                              val onScrollDown :() ->Unit = {},
+                              val getMoreData :() -> Unit = {},
                               val layoutManager: LinearLayoutManager): RecyclerView.OnScrollListener(){
 
 
@@ -18,6 +20,7 @@ class EndlessOnScrollListener(val getMoreData: ()-> Unit,
         super.onScrolled(recyclerView, dx, dy)
 
         if (dy>0){
+            onScrollDown()
             visibleItemCount = recyclerView.childCount
             totalItemsCount = layoutManager.itemCount
             firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
@@ -26,6 +29,10 @@ class EndlessOnScrollListener(val getMoreData: ()-> Unit,
                 if (totalItemsCount>previousTotal) {
                     loading = false
                     previousTotal = totalItemsCount
+                    onScrollDown()
+                }
+                else{
+                    onScrollUp()
                 }
             }
 
@@ -34,6 +41,7 @@ class EndlessOnScrollListener(val getMoreData: ()-> Unit,
                 loading = true
             }
         }
+
 
 
     }

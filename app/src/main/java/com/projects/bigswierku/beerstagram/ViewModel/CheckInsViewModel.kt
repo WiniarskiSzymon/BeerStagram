@@ -29,12 +29,10 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
             .subscribe(
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.SUCCESS)
-                    if(lastId !=0) {
-                        listOfImagePosts.addAll( it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty() })
-                    }else {
+                    if(lastId ==0) {
                         listOfImagePosts.clear()
-                        listOfImagePosts.addAll(it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty()})
                     }
+                    listOfImagePosts.addAll(it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty()})
                     checkInsData.value  =listOfImagePosts
                 },
                 {

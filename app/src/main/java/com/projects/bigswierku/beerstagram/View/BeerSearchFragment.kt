@@ -6,16 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.TransitionManager
 import com.jakewharton.rxbinding.widget.RxSearchView
 import com.projects.bigswierku.beerstagram.Adapters.BeerSearchAdapter
+import com.projects.bigswierku.beerstagram.Adapters.EndlessOnScrollListener
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.ViewModel.BeerSearchViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.BeerSearchViewModelFactory
 import com.projects.bigswierku.beerstagram.model.untapped.BeerSearchResult
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.android.synthetic.main.bottom_bar.*
 import kotlinx.android.synthetic.main.search_list.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -31,7 +37,6 @@ class BeerSearchFragment: Fragment() {
     lateinit var beerSearchViewModelFactory: BeerSearchViewModelFactory
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var viewAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>
-    private lateinit var viewManager: androidx.recyclerview.widget.RecyclerView.LayoutManager
     private var resultList : MutableList<BeerSearchResult> =  mutableListOf()
     private val beerSearchViewModel by lazy{
         ViewModelProviders.of(this, beerSearchViewModelFactory).get(BeerSearchViewModel::class.java)
@@ -65,13 +70,21 @@ class BeerSearchFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view = inflater.inflate(R.layout.search_list, container, false)
-        viewManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
-        viewAdapter = BeerSearchAdapter(resultList){beerID : Int ->openBeerImageFragment(beerID )}
+        val viewManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
+        viewAdapter = BeerSearchAdapter(resultList){
+                beerID : Int ->openBeerImageFragment(beerID )
+        }
         recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.search_recycler_view).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        recyclerView.addOnScrollListener(
+            EndlessOnScrollListener(getMoreData = {beerSearchViewModel.searchForBeer(search_beer.toString(),offset = resultList.size )},
+                onScrollUp = { search_beer.visibility = View.VISIBLE},
+                onScrollDown = {search_beer.visibility = View.GONE},
+                layoutManager = viewManager)
+        )
         return  view
     }
 

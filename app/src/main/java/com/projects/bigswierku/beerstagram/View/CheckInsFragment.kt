@@ -56,7 +56,9 @@ class CheckInsFragment : Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        recyclerView.addOnScrollListener(EndlessOnScrollListener({checkInsViewModel.getCheckIns(imageList.last().checkinId)},viewManager))
+        recyclerView.addOnScrollListener(
+            EndlessOnScrollListener(getMoreData = {checkInsViewModel.getCheckIns(lastId = imageList.last().checkinId)},
+                layoutManager = viewManager))
 
         return view
     }
@@ -82,7 +84,7 @@ class CheckInsFragment : Fragment() {
                                 local_swiperefresh.isRefreshing = false
                                 activity?.showMyDialog(it.errorMessage)
                             }
-                        }
+               }
         })
     }
 

@@ -72,17 +72,21 @@ fun BeerSearchResultItem.toBeeeSearchresult() = BeerSearchResult(
     this.checkinCount
 )
 
- fun Context.showMyDialog(errorMessage:String?) {
+ fun Context.showMyDialog(errorMessage:String?, moreFlag : Boolean = false) {
     val builder = AlertDialog.Builder(this)
      with(builder) {
          setTitle(R.string.error_alert_title)
-         setMessage(R.string.error_alert_message)
+         if(moreFlag){
+             setMessage(errorMessage)
+         }else {
+             setMessage(R.string.error_alert_message)
+         }
          setPositiveButton(R.string.error_alert_ok) { dialog : DialogInterface, _ ->
              dialog.dismiss()
          }
          setNegativeButton(R.string.error_alert_more_info) { dialog: DialogInterface, _ ->
              dialog.dismiss()
-             showMyDialog(errorMessage)
+             showMyDialog(errorMessage, true)
          }
      }
     val dialog = builder.create()

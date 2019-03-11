@@ -45,6 +45,7 @@ interface  UntappedService{
     fun searchBeer(
         @Query("client_id")clientID: String,
         @Query("client_secret")clientSecret : String,
-        @Query("q")query : String
+        @Query("q")query : String,
+        @Query ("offset") offset : String
     ):Single<BeerSearchResponse>
 }

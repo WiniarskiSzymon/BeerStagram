@@ -42,7 +42,7 @@ class UntappedAPI {
 
     fun getUserFeed(token : String):Single<UserFeedResponse> = service.getUserFeed(token)
 
-    fun searchBeer(query:String) : Single<BeerSearchResponse> = service.searchBeer(clientID, clientSecret,query)
+    fun searchBeer(query:String, offset : Int) : Single<BeerSearchResponse> = service.searchBeer(clientID, clientSecret,query, offset.toString())
 
     private fun getLogger() : OkHttpClient{
         val  logging = HttpLoggingInterceptor()
