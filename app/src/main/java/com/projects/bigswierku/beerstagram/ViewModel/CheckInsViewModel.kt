@@ -33,7 +33,7 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
                         listOfImagePosts.clear()
                     }
                     listOfImagePosts.addAll(it.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty()})
-                    checkInsData.value  =listOfImagePosts
+                    checkInsData.value  = listOfImagePosts
                 },
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.ERROR, it.message)

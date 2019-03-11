@@ -16,8 +16,13 @@ class EndlessOnScrollListener(val onScrollUp: ()-> Unit ={},
     private var visibleItemCount = 0
     private var totalItemsCount = 0
 
+
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
+
+        if(dy<0){
+            onScrollUp()
+        }
 
         if (dy>0){
             onScrollDown()
@@ -29,10 +34,6 @@ class EndlessOnScrollListener(val onScrollUp: ()-> Unit ={},
                 if (totalItemsCount>previousTotal) {
                     loading = false
                     previousTotal = totalItemsCount
-                    onScrollDown()
-                }
-                else{
-                    onScrollUp()
                 }
             }
 
@@ -40,6 +41,8 @@ class EndlessOnScrollListener(val onScrollUp: ()-> Unit ={},
                 getMoreData()
                 loading = true
             }
+
+
         }
 
 
