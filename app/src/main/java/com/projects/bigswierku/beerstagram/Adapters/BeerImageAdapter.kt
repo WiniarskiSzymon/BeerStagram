@@ -20,7 +20,6 @@ class BeerImageAdapter(val items: List<Photo>) : androidx.recyclerview.widget.Re
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.updateWithUrl(items[position].photoImgMd)
 
-
     }
 
 

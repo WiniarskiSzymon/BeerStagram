@@ -78,17 +78,26 @@ class BeerSearchFragment: Fragment() {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
+            addOnScrollListener(
+                EndlessOnScrollListener(
+                    getMoreData = {
+                        beerSearchViewModel.searchForBeer(
+                            search_beer.toString(),
+                            offset = resultList.size
+                        )
+                    },
+                    onScrollUp = {
+                        TransitionManager.beginDelayedTransition(search_beer)
+                        search_beer.visibility = View.VISIBLE
+                    },
+                    onScrollDown = {
+                        TransitionManager.beginDelayedTransition(search_beer)
+                        search_beer.visibility = View.GONE
+                    },
+                    layoutManager = viewManager
+                )
+            )
         }
-        recyclerView.addOnScrollListener(
-            EndlessOnScrollListener(getMoreData = {beerSearchViewModel.searchForBeer(search_beer.toString(),offset = resultList.size )},
-                onScrollUp = {
-                    TransitionManager.beginDelayedTransition(search_beer)
-                    search_beer.visibility = View.VISIBLE},
-                onScrollDown = {
-                    TransitionManager.beginDelayedTransition(search_beer)
-                    search_beer.visibility = View.GONE},
-                layoutManager = viewManager)
-        )
         return  view
     }
 

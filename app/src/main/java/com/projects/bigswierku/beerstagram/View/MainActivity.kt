@@ -11,14 +11,14 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.transition.TransitionManager
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.model.untapped.TokenStatus
-import kotlinx.android.synthetic.main.activity_main.*
-
-
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.bottom_bar.*
 import javax.inject.Inject
+
+
+
 
 
 
@@ -67,22 +67,23 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
 
     fun openFragment( tag : FragmentTag, bundle :Bundle? = null  ) {
+        val fragmentPopped = supportFragmentManager.popBackStackImmediate(tag.toString(), 0)
         var fragment = supportFragmentManager.findFragmentByTag(tag.toString())
-        if(fragment == null) {
-            when (tag) {
-                FragmentTag.BEER-> fragment = BeerImageFragment.newInstance()
-                FragmentTag.LOCAL ->fragment = CheckInsFragment.newInstance()
-                FragmentTag.LOGIN -> fragment = LogInFragment.newInstance()
-                FragmentTag.FEED ->fragment = UserFeedFragment.newInstance()
-                FragmentTag.SEARCH ->fragment = BeerSearchFragment.newInstance()
-            }
-        }
-        val transaction = supportFragmentManager.beginTransaction()
-        fragment.arguments = bundle
-        transaction.replace(R.id.fragment_container, fragment, tag.toString())
-        transaction.addToBackStack(null)
-        transaction.commit()
+        if (!fragmentPopped && fragment ==null) {
+                when (tag) {
+                    FragmentTag.BEER -> fragment = BeerImageFragment.newInstance()
+                    FragmentTag.LOCAL -> fragment = CheckInsFragment.newInstance()
+                    FragmentTag.LOGIN -> fragment = LogInFragment.newInstance()
+                    FragmentTag.FEED -> fragment = UserFeedFragment.newInstance()
+                    FragmentTag.SEARCH -> fragment = BeerSearchFragment.newInstance()
+                }
+            val transaction = supportFragmentManager.beginTransaction()
+            fragment.arguments = bundle
 
+            transaction.replace(R.id.fragment_container, fragment, tag.toString())
+            transaction.addToBackStack(fragment.tag)
+            transaction.commit()
+        }
     }
 
     private fun checkIfLogedIn(): Boolean {
@@ -128,6 +129,5 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         cs.applyTo(user_feed_action)
 
     }
-
 
 }

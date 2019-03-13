@@ -3,15 +3,18 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="wrap_content"
-                                                   android:layout_height="wrap_content"
-                                                   android:padding="5dp">
+                                                   android:layout_height="wrap_content">
 
 
     <ImageView
-        android:id="@+id/beer_image_small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="image"
-   />
+            android:gravity="center"
+            android:id="@+id/beer_image_small"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:contentDescription="image"
+            android:padding="2dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
