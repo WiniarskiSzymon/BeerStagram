@@ -36,7 +36,6 @@
                       android:pathPrefix="/oauth/open.my.app" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-
         </activity>
     </application>
 

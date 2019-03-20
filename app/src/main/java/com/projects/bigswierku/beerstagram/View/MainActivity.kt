@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -66,6 +67,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
 
 
+
+
     fun openFragment( tag : FragmentTag, bundle :Bundle? = null  ) {
         val fragmentPopped = supportFragmentManager.popBackStackImmediate(tag.toString(), 0)
         var fragment = supportFragmentManager.findFragmentByTag(tag.toString())
@@ -91,6 +94,18 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         val tokenStatus = sharedPref.getString(getString(R.string.token_status), TokenStatus.NONAUTHORIZED.toString())
         return tokenStatus == TokenStatus.AUTHORIZED.toString()
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val tag = supportFragmentManager.findFragmentById(R.id.fragment_container)?.tag
+        when (tag) {
+            FragmentTag.BEER.toString() -> select(R.id.search_beer_action)
+            FragmentTag.LOCAL.toString() -> select(R.id.local_beers_action)
+            FragmentTag.LOGIN.toString() -> select(R.id.user_feed_action)
+            FragmentTag.FEED.toString() -> select(R.id.user_feed_action)
+            FragmentTag.SEARCH.toString() -> select(R.id.search_beer_action)
+        }
     }
 
 

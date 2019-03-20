@@ -21,12 +21,13 @@ class EndlessOnScrollListener(val onScrollUp: ()-> Unit ={},
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
-        if(dy<-50){
+        if(dy<-70){
             onScrollUp()
         }
 
-        if (dy>50){
+        if (dy>70) {
             onScrollDown()
+        }
             visibleItemCount = recyclerView.childCount
             totalItemsCount = layoutManager.itemCount
             firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
@@ -44,7 +45,7 @@ class EndlessOnScrollListener(val onScrollUp: ()-> Unit ={},
             }
 
 
-        }
+
 
 
 

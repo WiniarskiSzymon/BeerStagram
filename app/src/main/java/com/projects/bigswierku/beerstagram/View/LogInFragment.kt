@@ -124,6 +124,8 @@ class LogInFragment :Fragment(){
         return tokenStatus == TokenStatus.AUTHORIZED.toString()
     }
 
+
+
     companion object {
         fun newInstance(): LogInFragment = LogInFragment()
     }
