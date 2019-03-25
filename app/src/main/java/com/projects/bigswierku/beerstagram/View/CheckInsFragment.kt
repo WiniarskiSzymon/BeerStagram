@@ -1,14 +1,19 @@
 package com.projects.bigswierku.beerstagram.View
 
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.projects.bigswierku.beerstagram.Adapters.CheckInsAdapter
 import com.projects.bigswierku.beerstagram.Adapters.EndlessOnScrollListener
 import com.projects.bigswierku.beerstagram.R
@@ -27,12 +32,15 @@ class CheckInsFragment : Fragment() {
 
     @Inject
     lateinit var checkInViewModelFactory: CheckInsViewModelFactory
+
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var viewAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>
     private var imageList : MutableList<ImagePost> =  mutableListOf()
     private val checkInsViewModel by lazy {
         ViewModelProviders.of(this,checkInViewModelFactory).get(CheckInsViewModel::class.java)
     }
+
+
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -46,6 +54,7 @@ class CheckInsFragment : Fragment() {
         checkInsViewModel.getCheckIns()
 
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view =  inflater.inflate(R.layout.checkins_list, container, false)
@@ -100,6 +109,7 @@ class CheckInsFragment : Fragment() {
         imageList.addAll(postList)
         viewAdapter.notifyDataSetChanged()
     }
+
 
 
 

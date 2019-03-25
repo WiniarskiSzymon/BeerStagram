@@ -2,6 +2,7 @@ package com.projects.bigswierku.beerstagram.DI
 
 import android.app.Application
 import android.content.Context
+import com.google.android.gms.location.LocationServices
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import dagger.Module
 import dagger.Provides
@@ -19,5 +20,8 @@ class AppModule() {
     @Singleton
     @Provides
     fun provideApi() = UntappedAPI()
+
+    @Provides
+    fun provideFussedLocation(application: Application) = LocationServices.getFusedLocationProviderClient(application)
 
 }

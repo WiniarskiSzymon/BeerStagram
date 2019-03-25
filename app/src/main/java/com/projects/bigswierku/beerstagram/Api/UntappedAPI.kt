@@ -1,5 +1,6 @@
 package com.projects.bigswierku.beerstagram.Api
 
+import android.location.Location
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -35,7 +36,8 @@ class UntappedAPI {
 
     fun getBeerInfo(beerID : String): Single<BeerInfoRequest> =service.getBeerInfo(beerID,clientID, clientSecret)
 
-    fun getCheckIns(lastId: Int):Single<PubLocalRequest> = service.getPubLocal(clientID, clientSecret,"52.2297","21.0122","km", lastId.toString())
+    fun getCheckIns(lastId: Int, lastKnownLocation : Location):Single<PubLocalRequest> =
+        service.getPubLocal(clientID, clientSecret,lastKnownLocation.latitude.toString(),lastKnownLocation.longitude.toString(),"km", lastId.toString())
 
     fun getToken(code : String):Single<TokenResponse> = service.getAuthorizationToken("https://untappd.com/oauth/authorize/",
         clientID, clientSecret, "code", "open.my.app",code)
@@ -52,5 +54,6 @@ class UntappedAPI {
         return httpClient.build()
 
     }
+
 
 }

@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.transition.TransitionManager
+import com.google.android.gms.location.LocationServices
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.model.untapped.TokenStatus
 import dagger.android.AndroidInjection
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(com.projects.bigswierku.beerstagram.R.layout.activity_main)
+
         openFragment( FragmentTag.LOCAL )
         local_beers_action.setOnClickListener {
             openFragment( FragmentTag.LOCAL )
