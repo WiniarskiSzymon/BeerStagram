@@ -5,40 +5,25 @@ import android.content.Context
 import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
 import javax.inject.Inject
 
 class LasLocationProvider @Inject constructor(private val context : Context){
-    private lateinit var lastKnownLocation  : Location
     private lateinit var fusedLocationClient : FusedLocationProviderClient
 
-    init{
-        registerForLocationChanges()
-    }
-
-    @SuppressLint("MissingPermission")
-    fun getLastKnownLocation() : Location?{
-        return when {
-            ::lastKnownLocation.isInitialized -> lastKnownLocation
-            else -> null
-        }
-    }
 
 
     @SuppressLint("MissingPermission")
-    private fun registerForLocationChanges(){
+    fun getLastKnownLocation() : Task<Location> {
         if(!::fusedLocationClient.isInitialized){
             getFuseLocationClient()
         }
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
-                if(location!=null){
-                    lastKnownLocation = location
-                }
-                else{
-                    context.showMyDialog("Can't obtain location")
-                }
-            }
+        return fusedLocationClient.lastLocation
+
     }
+
+
+
 
     private fun getFuseLocationClient(){
 

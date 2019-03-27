@@ -8,6 +8,7 @@ import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import com.projects.bigswierku.beerstagram.LasLocationProvider
 
 import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
+import com.projects.bigswierku.beerstagram.showMyDialog
 import com.projects.bigswierku.beerstagram.toImagePost
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,11 +24,17 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
     var checkInsData: MutableLiveData<List<ImagePost>> = MutableLiveData()
     var checkInsResponseStatus: MutableLiveData<ResponseStatus> = MutableLiveData()
     private var listOfImagePosts = mutableListOf<ImagePost>()
+    private lateinit var lastKnownLocation  : Location
+    private var locationAcquiredFlag  = false
+
+    init{
+        observeLocation()
+    }
+
 
     fun getCheckIns( lastId  : Int = 0) {
-        val location = locationProvider.getLastKnownLocation()
-        if (location != null) {
-            disposable = untappedAPI.getCheckIns(lastId, location)
+        if (::lastKnownLocation.isInitialized) {
+            disposable = untappedAPI.getCheckIns(lastId, lastKnownLocation)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { checkInsResponseStatus.value = ResponseStatus(Status.LOADING) }
@@ -43,12 +50,24 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
                     {
                         checkInsResponseStatus.value = ResponseStatus(Status.ERROR, it.message)
                     })
-        } else {
-            checkInsResponseStatus.value = ResponseStatus(Status.ERROR, "cant obtain current location")
         }
     }
 
+    private fun observeLocation() {
+        locationProvider.getLastKnownLocation().addOnSuccessListener { location: Location? ->
+            if (location != null ) {
+                lastKnownLocation = location
+                if(!locationAcquiredFlag){
+                    getCheckIns()
+                    locationAcquiredFlag = true
+                }
+            }
 
+            else{
+                checkInsResponseStatus.value = ResponseStatus(Status.ERROR, "Cant obtain location")
+            }
+        }
+    }
 
     override fun onCleared(){
         super.onCleared()
