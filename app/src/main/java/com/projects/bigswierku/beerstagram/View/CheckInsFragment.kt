@@ -1,13 +1,17 @@
 package com.projects.bigswierku.beerstagram.View
 
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -51,7 +55,7 @@ class CheckInsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkInsViewModel.getCheckIns()
+
 
     }
 
@@ -74,6 +78,7 @@ class CheckInsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        checkPermissions()
         local_swiperefresh.setOnRefreshListener {
             checkInsViewModel.getCheckIns()
         }
@@ -110,8 +115,39 @@ class CheckInsFragment : Fragment() {
         viewAdapter.notifyDataSetChanged()
     }
 
+    private fun checkPermissions(){
+        val appContext = activity?.applicationContext
+        if(appContext!=null ) {
+            if (ContextCompat.checkSelfPermission(appContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                getLocationPermission()
+            }
+            else{
+               // checkInsViewModel.getCheckIns()
+            }
+        }
+    }
+
+    private fun getLocationPermission() {
+        val requestCode = resources.getInteger(R.integer.permission_request_code)
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                requestCode
+            )
+        }
 
 
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray){
+        when (requestCode) {
+            resources.getInteger(R.integer.permission_request_code) -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    checkInsViewModel.getCheckIns()
+                }
+                return
+            }
+        }
+
+    }
 
     private fun getCheckInInfo(imagePost: ImagePost){
     //TODO
