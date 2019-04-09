@@ -43,6 +43,9 @@ android {
         main.java.srcDirs += [file("$buildDir/generated/source/kapt/main")]
         test.java.srcDirs += 'src/test/kotlin'
         test.java.srcDirs += 'src/test/java'
+        test {
+            resources.srcDirs += ['src/test/res']
+        }
     }
 }
 

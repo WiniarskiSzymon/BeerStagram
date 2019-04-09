@@ -11,26 +11,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import com.google.gson.Gson
 
 import com.projects.bigswierku.beerstagram.model.untapped.*
+import javax.inject.Inject
 
 
-
-
-class UntappedAPI {
+class UntappedAPI @Inject constructor(retrofit : Retrofit){
 
     private  val clientID = "7BA7E574D1C0CEFCEB7FDAB198D5A68F402FC9A8"
     private val clientSecret = "140D0F35382F22C9398413ADF865728F85016DA0"
-
-    private val gson = GsonBuilder()
-        .registerTypeAdapterFactory(SingletonListTypeAdapterFactory())
-            .setLenient()
-            .create()
-
-    private val  retrofit = Retrofit.Builder()
-            .baseUrl("https://api.untappd.com/v4/")
-            .client(getLogger())
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
 
     private val service =  retrofit.create(UntappedService::class.java)
 
