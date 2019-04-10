@@ -3,7 +3,10 @@ package com.projects.bigswierku.beerstagram
 import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LiveData
 import com.projects.bigswierku.beerstagram.model.untapped.*
+import io.reactivex.observers.TestObserver
+
 
 fun CheckIn.toImagePost()=
         when (this.media.items.size){
@@ -92,3 +95,5 @@ fun BeerSearchResultItem.toBeeeSearchresult() = BeerSearchResult(
     val dialog = builder.create()
     dialog.show()
 }
+
+
