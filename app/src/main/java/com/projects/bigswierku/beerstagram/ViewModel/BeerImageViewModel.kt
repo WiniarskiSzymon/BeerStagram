@@ -31,7 +31,7 @@ class BeerImageViewModel @Inject constructor(val untappedAPI: UntappedAPI) : Vie
                     beerInfoData.value = it.response.beer.medias.items.map { it.photo }
                 },
                 {
-                    beerInfoRequestStatus.value = ResponseStatus(Status.ERROR, it.message)
+                   beerInfoRequestStatus.value = ResponseStatus(Status.ERROR, it.message)
                 })
     }
 

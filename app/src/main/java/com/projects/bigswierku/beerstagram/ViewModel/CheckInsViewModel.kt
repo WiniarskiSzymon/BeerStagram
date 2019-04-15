@@ -33,7 +33,7 @@ class CheckInsViewModel @Inject constructor(private val untappedAPI: UntappedAPI
 
 
     fun getCheckIns( lastId  : Int = 0) {
-        if (::lastKnownLocation.isInitialized && lastKnownLocation !=null) {
+        if (::lastKnownLocation.isInitialized) {
             queryForCheckIns(lastId)
         }
         else{

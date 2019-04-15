@@ -28,7 +28,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Test
 import io.reactivex.observers.TestObserver
-import org.junit.jupiter.api.BeforeAll
+import org.junit.BeforeClass
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -84,23 +84,23 @@ class UntappedApiTest {
 
     @Test
     fun `Test for getting Check Ins from nearby `(){
-        mockServer.enqueue(beerinfoResponseMock)
+        mockServer.enqueue(localCheckInsResponseMock)
         untappedAPI.getCheckIns(lastId = 0,lastKnownLocation = location).subscribe(checkInstestSubscriber)
 
         checkInstestSubscriber.assertNoErrors()
         checkInstestSubscriber.assertValueCount(1)
-        checkInstestSubscriber.assertValue(gson.fromJson(beerInfoJSON, PubLocalRequest::class.java))
+        checkInstestSubscriber.assertValue(gson.fromJson(localCheckInsJSON, PubLocalRequest::class.java))
 
     }
 
     @Test
     fun  `Test for getting specific beer info`(){
-        mockServer.enqueue(localCheckInsResponseMock)
+        mockServer.enqueue(beerinfoResponseMock)
         untappedAPI.getBeerInfo("16630").subscribe(beerInfoSubscriber)
 
         beerInfoSubscriber.assertNoErrors()
         beerInfoSubscriber.assertValueCount(1)
-        beerInfoSubscriber.assertValue(gson.fromJson(localCheckInsJSON, BeerInfoRequest::class.java))
+        beerInfoSubscriber.assertValue(gson.fromJson(beerInfoJSON, BeerInfoRequest::class.java))
 
     }
 
