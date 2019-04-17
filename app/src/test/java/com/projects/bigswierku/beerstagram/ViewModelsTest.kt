@@ -10,8 +10,14 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerInfoResponse
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerSearchResponse
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.checkInRespons
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.tokenResponse
 import com.projects.bigswierku.beerstagram.ViewModel.BeerImageViewModel
+import com.projects.bigswierku.beerstagram.ViewModel.BeerSearchViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
+import com.projects.bigswierku.beerstagram.ViewModel.LogInViewModel
 
 import com.projects.bigswierku.beerstagram.model.untapped.*
 
@@ -22,12 +28,8 @@ import io.reactivex.Single
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.stubbing.Answer
-import retrofit2.adapter.rxjava2.Result.response
 
 
 
@@ -55,30 +57,26 @@ class ViewModelsTest{
     @InjectMocks
     private lateinit var beerImageViewModelMock : BeerImageViewModel
 
-    private lateinit var gson: Gson
-    private lateinit var checkInRespons : PubLocalRequest
-    private lateinit var beerInfoResponse: BeerInfoRequest
+    @InjectMocks
+    private lateinit var beerSearchViewModel : BeerSearchViewModel
+
+    @InjectMocks
+    private lateinit var logInViewModel : LogInViewModel
+
     private val location = mock<Location>()
     private val checkInsObserver = mock<Observer<List<ImagePost>>>()
     private val beerInfoObserver = mock<Observer<List<Photo>>>()
+    private val beerSearchObserver = mock<Observer<List<BeerSearchResult>>>()
+    private val tokenObserver = mock<Observer<Token>>()
     private val taskMock = mock<Task<Location>>()
-    private val localCheckInsJSON = JSONResponses.localCheckInsJSON
-    private val beerInfoJSON =JSONResponses.beerInfoJSON
-
     @get:Rule
     val schedulers = RxImmediateSchedulerRule()
 
         @Before
         fun setup(){
             MockitoAnnotations.initMocks(this)
-            this.gson = GsonBuilder()
-                .registerTypeAdapterFactory(SingletonListTypeAdapterFactory())
-                .setLenient()
-                .create()
 
-            checkInRespons = gson.fromJson(localCheckInsJSON, PubLocalRequest::class.java)
-            beerInfoResponse = gson.fromJson(beerInfoJSON, BeerInfoRequest::class.java)
-            whenever(taskMock.addOnSuccessListener {  }).thenReturn(location)
+           // whenever(taskMock.addOnSuccessListener {  }).thenReturn(location)
             whenever(locationProvider.getLastKnownLocation()).thenReturn(taskMock)
             checkInsViewModelMock  = CheckInsViewModel(untappedAPI,locationProvider)
         }
@@ -102,4 +100,26 @@ class ViewModelsTest{
         verify(beerInfoObserver).onChanged(beerInfoResponse.response.beer.medias.items.map { it.photo })
     }
 
+    @Test
+    fun `Checking passing beer search results`(){
+        whenever(untappedAPI.searchBeer("beer",1)).thenReturn(Single.just(beerSearchResponse))
+        beerSearchViewModel.searchForBeer("beer",1)
+        beerSearchViewModel.beerSearchData.observeForever(beerSearchObserver)
+        verify(beerSearchObserver).onChanged((beerSearchResponse.beerSearchData.beers.items.map { it.toBeeeSearchresult() }))
+    }
+
+    @Test
+    fun `Checking passing user feed`(){
+        //whenever(untappedAPI.getUserFeed("token")).thenReturn(Single.just())
+
+    }
+
+
+    @Test
+    fun `Checking getting token`(){
+        whenever(untappedAPI.getToken("code")).thenReturn(Single.just(tokenResponse))
+        logInViewModel.getAuthorizationToken("code")
+        logInViewModel.tokenLiveData.observeForever(tokenObserver)
+        verify(tokenObserver).onChanged(tokenResponse.token)
+    }
 }

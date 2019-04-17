@@ -25,10 +25,11 @@ class AppModule() {
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson : Gson) = Retrofit.Builder()
+    fun provideRetrofit(gson : Gson, logger : OkHttpClient) = Retrofit.Builder()
         .baseUrl("https://api.untappd.com/v4/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .client(logger)
         .build()
 
     @Provides
@@ -36,6 +37,16 @@ class AppModule() {
         .registerTypeAdapterFactory(SingletonListTypeAdapterFactory())
         .setLenient()
         .create()
+
+    @Provides
+    fun provideLogger() : OkHttpClient{
+        val  logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)
+        return httpClient.build()
+
+    }
 
 
     @Provides

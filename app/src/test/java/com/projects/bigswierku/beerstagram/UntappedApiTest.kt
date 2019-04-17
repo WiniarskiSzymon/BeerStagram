@@ -14,14 +14,15 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 import com.nhaarman.mockitokotlin2.mock
-import com.projects.bigswierku.beerstagram.JSONResponses.Companion.beerInfoJSON
-import com.projects.bigswierku.beerstagram.JSONResponses.Companion.beerSearchJSON
-import com.projects.bigswierku.beerstagram.JSONResponses.Companion.localCheckInsJSON
-import com.projects.bigswierku.beerstagram.model.untapped.BeerInfoRequest
-
-import com.projects.bigswierku.beerstagram.model.untapped.BeerSearchResponse
-import com.projects.bigswierku.beerstagram.model.untapped.PubLocalRequest
-import com.projects.bigswierku.beerstagram.model.untapped.SingletonListTypeAdapterFactory
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerInfoJSON
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerInfoResponse
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerSearchJSON
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerSearchResponse
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.checkInRespons
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.localCheckInsJSON
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.tokenJSON
+import com.projects.bigswierku.beerstagram.DataHelper.Companion.tokenResponse
+import com.projects.bigswierku.beerstagram.model.untapped.*
 
 
 import okhttp3.mockwebserver.MockResponse
@@ -41,15 +42,16 @@ class UntappedApiTest {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var mockServer : MockWebServer
-    private lateinit var gson: Gson
     private lateinit var retrofit : Retrofit
     private lateinit var untappedAPI : UntappedAPI
     private lateinit var localCheckInsResponseMock : MockResponse
     private lateinit var beerinfoResponseMock : MockResponse
     private lateinit var beerSearchResponseMock  :MockResponse
+    private lateinit var tokenResponseMock : MockResponse
     private lateinit var checkInstestSubscriber :TestObserver<PubLocalRequest>
     private lateinit var beerInfoSubscriber :TestObserver<BeerInfoRequest>
     private lateinit var beerSearchSubcriber  : TestObserver<BeerSearchResponse>
+    private lateinit var tokenSubscriber : TestObserver<TokenResponse>
     private  var location = mock<Location>()
 
 
@@ -67,10 +69,7 @@ class UntappedApiTest {
         checkInstestSubscriber = TestObserver()
         beerInfoSubscriber = TestObserver()
         beerSearchSubcriber = TestObserver()
-        gson = GsonBuilder()
-            .registerTypeAdapterFactory(SingletonListTypeAdapterFactory())
-            .setLenient()
-            .create()
+        tokenSubscriber = TestObserver()
         localCheckInsResponseMock = MockResponse()
                 .setResponseCode(200)
                 .setBody(localCheckInsJSON)
@@ -80,6 +79,9 @@ class UntappedApiTest {
         beerSearchResponseMock = MockResponse()
             .setResponseCode(200)
             .setBody(beerSearchJSON)
+        tokenResponseMock = MockResponse()
+            .setResponseCode(200)
+            .setBody(tokenJSON)
     }
 
     @Test
@@ -89,7 +91,7 @@ class UntappedApiTest {
 
         checkInstestSubscriber.assertNoErrors()
         checkInstestSubscriber.assertValueCount(1)
-        checkInstestSubscriber.assertValue(gson.fromJson(localCheckInsJSON, PubLocalRequest::class.java))
+        checkInstestSubscriber.assertValue(checkInRespons)
 
     }
 
@@ -100,7 +102,7 @@ class UntappedApiTest {
 
         beerInfoSubscriber.assertNoErrors()
         beerInfoSubscriber.assertValueCount(1)
-        beerInfoSubscriber.assertValue(gson.fromJson(beerInfoJSON, BeerInfoRequest::class.java))
+        beerInfoSubscriber.assertValue(beerInfoResponse)
 
     }
 
@@ -110,12 +112,17 @@ class UntappedApiTest {
         untappedAPI.searchBeer("beer",0).subscribe(beerSearchSubcriber)
         beerSearchSubcriber.assertNoErrors()
         beerSearchSubcriber.assertValueCount(1)
-        beerSearchSubcriber.assertValue(gson.fromJson(beerInfoJSON, BeerSearchResponse::class.java))
+        beerSearchSubcriber.assertValue(beerSearchResponse)
 
     }
 
     @Test
     fun `Test for getting autentication token`(){
+        mockServer.enqueue(tokenResponseMock)
+        untappedAPI.getToken("16630").subscribe(tokenSubscriber)
+        tokenSubscriber.assertNoErrors()
+        tokenSubscriber.assertValueCount(1)
+        tokenSubscriber.assertValue(tokenResponse)
 
     }
 

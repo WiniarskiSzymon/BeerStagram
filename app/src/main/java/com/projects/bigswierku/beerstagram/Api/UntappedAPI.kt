@@ -33,14 +33,7 @@ class UntappedAPI @Inject constructor(retrofit : Retrofit){
 
     fun searchBeer(query:String, offset : Int) : Single<BeerSearchResponse> = service.searchBeer(clientID, clientSecret,query, offset.toString())
 
-    private fun getLogger() : OkHttpClient{
-        val  logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addInterceptor(logging)
-        return httpClient.build()
 
-    }
 
 
 }
