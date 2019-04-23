@@ -57,46 +57,50 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        val code = intent?.let{
-            it.data?.getQueryParameter("code")
-        }
-        val bundle = Bundle()
-        bundle.putString("code", code)
-        openFragment( FragmentTag.LOGIN, bundle)
-    }
-
-
-
-
 
     fun openFragment( tag : FragmentTag, bundle :Bundle? = null  ) {
         val fragmentPopped = supportFragmentManager.popBackStackImmediate(tag.toString(), 0)
         var fragment = supportFragmentManager.findFragmentByTag(tag.toString())
-        if (!fragmentPopped && fragment ==null) {
-                when (tag) {
-                    FragmentTag.BEER -> fragment = BeerImageFragment.newInstance()
-                    FragmentTag.LOCAL -> fragment = CheckInsFragment.newInstance()
-                    FragmentTag.LOGIN -> fragment = LogInFragment.newInstance()
-                    FragmentTag.FEED -> fragment = UserFeedFragment.newInstance()
-                    FragmentTag.SEARCH -> fragment = BeerSearchFragment.newInstance()
-                }
+        if (!fragmentPopped && fragment == null) {
+            when (tag) {
+                FragmentTag.BEER -> fragment = BeerImageFragment.newInstance()
+                FragmentTag.LOCAL -> fragment = CheckInsFragment.newInstance()
+                FragmentTag.LOGIN -> fragment = LogInFragment.newInstance()
+                FragmentTag.FEED -> fragment = UserFeedFragment.newInstance()
+                FragmentTag.SEARCH -> fragment = BeerSearchFragment.newInstance()
+            }
             val transaction = supportFragmentManager.beginTransaction()
             fragment.arguments = bundle
-
             transaction.replace(R.id.fragment_container, fragment, tag.toString())
             transaction.addToBackStack(fragment.tag)
             transaction.commit()
         }
     }
 
-    private fun checkIfLogedIn(): Boolean {
-        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return false
-        val tokenStatus = sharedPref.getString(getString(R.string.token_status), TokenStatus.NONAUTHORIZED.toString())
-        return tokenStatus == TokenStatus.AUTHORIZED.toString()
+
+     fun checkIfLogedIn(): Boolean {
+         val tokenStatus = readFromShredPreferences(getString(R.string.token_status))
+         return tokenStatus == TokenStatus.AUTHORIZED.toString()
 
     }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if(checkIfLogedIn())      {
+            openFragment( FragmentTag.FEED)
+        }
+        else {
+            val code = intent?.let {
+                it.data?.getQueryParameter("code")
+            }
+            if (code != null) {
+                saveToSharedPreferences("code", code)
+            }
+            openFragment(FragmentTag.LOGIN)
+        }
+    }
+
+
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -110,7 +114,21 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
+    private fun saveToSharedPreferences(name:String, value :String) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        if (sharedPref !== null) {
+            sharedPref.edit().apply {
+                putString(name, value)
+                apply()
+            }
+        }
+    }
 
+    private fun readFromShredPreferences(name:String):String?{
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val value = sharedPref.getString(name,null)
+        return value
+    }
 
     fun select(id: Int) {
         TransitionManager.beginDelayedTransition(bottom_bar)

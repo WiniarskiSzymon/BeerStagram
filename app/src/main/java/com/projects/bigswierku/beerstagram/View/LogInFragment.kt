@@ -28,7 +28,7 @@ class LogInFragment :Fragment(){
 
     @Inject
     lateinit var logInViewModelFavtory: LogInViewModelFactory
-    private  var  code : String? =null
+    private  lateinit var  code : String
     private val clientID = "7BA7E574D1C0CEFCEB7FDAB198D5A68F402FC9A8"
     private val redirectURL = "open.my.app"
     private val logInViewModel by lazy {
@@ -60,10 +60,10 @@ class LogInFragment :Fragment(){
     override fun onResume() {
         super.onResume()
         if(!checkIfLogedIn()) {
-            code = this.arguments?.getString("code")
-            code?.let {
-                logInViewModel.getAuthorizationToken(it)
-            }
+            code = readFromShredPreferences("code") ?:""
+        }
+        if(!code.isEmpty()){
+            logInViewModel.getAuthorizationToken(code)
         }
     }
 
@@ -80,47 +80,31 @@ class LogInFragment :Fragment(){
             appendQueryParameter("redirect_url", redirectURL)
             build()
         }
-
         val intent  = Intent(ACTION_VIEW, uri )
         activity?.startActivity(intent)
     }
 
     private fun observeTokenLiveData(){
         logInViewModel.tokenLiveData.observe(this, Observer<Token>{
-            saveToken(it.token)
+            saveToSharedPreferences(getString(R.string.token), it.token)
+            val intent  = Intent(activity,MainActivity::class.java )
+            activity?.startActivity(intent)
         })
-    }
-
-    private fun saveToken(token : String){
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-        sharedPref?.edit().let{
-            it?.putString(getString(R.string.token), token)
-            it?.commit()
-        }
     }
 
     private fun observeResponseStatus(){
         logInViewModel.responseLiveData.observe(this, Observer<ResponseStatus> {
             when (it.status) {
-                Status.SUCCESS -> setTokenStatus(TokenStatus.AUTHORIZED)
-                Status.ERROR -> setTokenStatus(TokenStatus.NONAUTHORIZED)
-                Status.LOADING -> setTokenStatus(TokenStatus.NONAUTHORIZED)
+                Status.SUCCESS -> saveToSharedPreferences(getString(R.string.token_status),TokenStatus.AUTHORIZED.toString())
+                Status.ERROR -> saveToSharedPreferences(getString(R.string.token_status),TokenStatus.NONAUTHORIZED.toString())
+                Status.LOADING -> saveToSharedPreferences(getString(R.string.token_status),TokenStatus.NONAUTHORIZED.toString())
             }
         })
     }
 
 
-    private fun setTokenStatus(status: TokenStatus){
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-            sharedPref?.edit().let{
-                it?.putString(getString(R.string.token_status), status.toString())
-                it?.commit()
-            }
-        }
-
     private fun checkIfLogedIn(): Boolean {
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return false
-        val tokenStatus = sharedPref.getString(getString(R.string.token_status), TokenStatus.NONAUTHORIZED.toString())
+        val tokenStatus = readFromShredPreferences(getString(R.string.token_status))
         return tokenStatus == TokenStatus.AUTHORIZED.toString()
     }
 
@@ -128,6 +112,22 @@ class LogInFragment :Fragment(){
 
     companion object {
         fun newInstance(): LogInFragment = LogInFragment()
+    }
+
+    private fun saveToSharedPreferences(name:String, value :String) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        if (sharedPref !== null) {
+            sharedPref.edit().apply {
+                putString(name, value)
+                apply()
+            }
+        }
+    }
+
+    private fun readFromShredPreferences(name:String):String?{
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        val value = sharedPref?.getString(name,null)
+        return value
     }
 
 }
