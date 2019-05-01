@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import com.projects.bigswierku.beerstagram.model.untapped.BeerSearchResult
-import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
 import com.projects.bigswierku.beerstagram.toBeeeSearchresult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

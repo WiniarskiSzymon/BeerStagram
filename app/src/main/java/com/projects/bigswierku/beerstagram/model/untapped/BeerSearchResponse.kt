@@ -1,6 +1,7 @@
 package com.projects.bigswierku.beerstagram.model.untapped
 
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 data class BeerSearchResponse(

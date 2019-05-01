@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.projects.bigswierku.beerstagram.R
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
+import com.projects.bigswierku.beerstagram.model.untapped.FriendCheckIn
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.user_feed_item.view.*
 
-class UserFeedAdapter(val  items: List<CheckInPost>) : RecyclerView.Adapter<UserFeedAdapter.ViewHolder>(){
+class UserFeedAdapter(val  items: List<FriendCheckIn>) : RecyclerView.Adapter<UserFeedAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserFeedAdapter.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.user_feed_item,parent,false))
 

@@ -4,12 +4,11 @@ import android.location.Location
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.google.android.gms.tasks.Task
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
+import com.projects.bigswierku.beerstagram.Api.UntappedRepo
 import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerInfoResponse
 import com.projects.bigswierku.beerstagram.DataHelper.Companion.beerSearchResponse
 import com.projects.bigswierku.beerstagram.DataHelper.Companion.checkInRespons
@@ -20,6 +19,7 @@ import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.LogInViewModel
 
 import com.projects.bigswierku.beerstagram.model.untapped.*
+import io.reactivex.Observable
 
 
 import org.mockito.InjectMocks
@@ -49,7 +49,9 @@ class ViewModelsTest{
 
 
 
+    private var untappedRepo =mock<UntappedRepo>()
     private var untappedAPI =mock<UntappedAPI>()
+
     private var locationProvider = mock<LasLocationProvider>()
 
     private lateinit var  checkInsViewModelMock : CheckInsViewModel
@@ -64,7 +66,7 @@ class ViewModelsTest{
     private lateinit var logInViewModel : LogInViewModel
 
     private val location = mock<Location>()
-    private val checkInsObserver = mock<Observer<List<ImagePost>>>()
+    private val checkInsObserver = mock<Observer<List<LocalCheckIn>>>()
     private val beerInfoObserver = mock<Observer<List<Photo>>>()
     private val beerSearchObserver = mock<Observer<List<BeerSearchResult>>>()
     private val tokenObserver = mock<Observer<Token>>()
@@ -78,17 +80,20 @@ class ViewModelsTest{
 
            // whenever(taskMock.addOnSuccessListener {  }).thenReturn(location)
             whenever(locationProvider.getLastKnownLocation()).thenReturn(taskMock)
-            checkInsViewModelMock  = CheckInsViewModel(untappedAPI,locationProvider)
+            checkInsViewModelMock  = CheckInsViewModel(untappedRepo ,locationProvider)
         }
 
 
 
     @Test
     fun `Checking passing check in info from api to activity`(){
-        whenever(untappedAPI.getCheckIns(0,location)).thenReturn(Single.just(checkInRespons))
+        val lis2 = mutableListOf<LocalCheckIn>()
+        val list = checkInRespons.response.checkins.items
+        val list3 = list.map { it.toLocalCheckIn() }
+        whenever(untappedRepo.getLocalCheckIns(0,location)).thenReturn(Observable.just(list3))
         checkInsViewModelMock.checkInsData.observeForever(checkInsObserver)
         checkInsViewModelMock.getCheckIns()
-        verify(checkInsObserver).onChanged(checkInRespons.response.checkins.items.map { it.toImagePost() }.filterNot { it.bigPhotoUrl.isNullOrEmpty() })
+        verify(checkInsObserver).onChanged(checkInRespons.response.checkins.items.map { it.toLocalCheckIn() }.filterNot { it.bigPhotoUrl.isNullOrEmpty() })
 
     }
 

@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.projects.bigswierku.beerstagram.R
-import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
+import com.projects.bigswierku.beerstagram.model.untapped.LocalCheckIn
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.checkins_item.view.*
 
-class CheckInsAdapter(val items: List<ImagePost>) : androidx.recyclerview.widget.RecyclerView.Adapter<CheckInsAdapter.ViewHolder>() {
+class CheckInsAdapter(val items: List<LocalCheckIn>) : androidx.recyclerview.widget.RecyclerView.Adapter<CheckInsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.checkins_item, parent, false))

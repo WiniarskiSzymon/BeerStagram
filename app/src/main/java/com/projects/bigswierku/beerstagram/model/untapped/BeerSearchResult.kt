@@ -1,5 +1,8 @@
 package com.projects.bigswierku.beerstagram.model.untapped
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 
 data class BeerSearchResult(
     val beerName: String,

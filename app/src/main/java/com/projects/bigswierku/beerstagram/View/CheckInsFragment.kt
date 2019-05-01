@@ -2,22 +2,16 @@ package com.projects.bigswierku.beerstagram.View
 
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.projects.bigswierku.beerstagram.Adapters.CheckInsAdapter
 import com.projects.bigswierku.beerstagram.Adapters.EndlessOnScrollListener
 import com.projects.bigswierku.beerstagram.R
@@ -25,10 +19,9 @@ import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModelFactory
 import com.projects.bigswierku.beerstagram.ViewModel.ResponseStatus
 import com.projects.bigswierku.beerstagram.ViewModel.Status
-import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
+import com.projects.bigswierku.beerstagram.model.untapped.LocalCheckIn
 import com.projects.bigswierku.beerstagram.showMyDialog
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.checkins_list.*
 import javax.inject.Inject
 
@@ -39,7 +32,7 @@ class CheckInsFragment : Fragment() {
 
     private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var viewAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>
-    private var imageList : MutableList<ImagePost> =  mutableListOf()
+    private var imageList : MutableList<LocalCheckIn> =  mutableListOf()
     private val checkInsViewModel by lazy {
         ViewModelProviders.of(this,checkInViewModelFactory).get(CheckInsViewModel::class.java)
     }
@@ -103,13 +96,13 @@ class CheckInsFragment : Fragment() {
     }
 
     private fun observeBeerInfoData() {
-        checkInsViewModel.checkInsData.observe(this, Observer<List<ImagePost>>{
+        checkInsViewModel.checkInsData.observe(this, Observer<List<LocalCheckIn>>{
         it?.let { updateAdapterWithData(it)  }
         viewAdapter.notifyDataSetChanged()
         })
     }
 
-    private fun updateAdapterWithData(postList :List <ImagePost>){
+    private fun updateAdapterWithData(postList :List <LocalCheckIn>){
         imageList.clear()
         imageList.addAll(postList)
         viewAdapter.notifyDataSetChanged()
@@ -149,7 +142,7 @@ class CheckInsFragment : Fragment() {
 
     }
 
-    private fun getCheckInInfo(imagePost: ImagePost){
+    private fun getCheckInInfo(imagePost: LocalCheckIn){
     //TODO
 
     }

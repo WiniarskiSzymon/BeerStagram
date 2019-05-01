@@ -2,7 +2,6 @@ package com.projects.bigswierku.beerstagram.View
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +14,9 @@ import com.projects.bigswierku.beerstagram.Adapters.UserFeedAdapter
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.ViewModel.UserFeedViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.UserFeedViewModelFactory
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
-import com.projects.bigswierku.beerstagram.model.untapped.ImagePost
+import com.projects.bigswierku.beerstagram.model.untapped.FriendCheckIn
 import com.projects.bigswierku.beerstagram.model.untapped.TokenStatus
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class UserFeedFragment : Fragment(){
@@ -30,7 +27,7 @@ class UserFeedFragment : Fragment(){
     private lateinit var recyclerView : RecyclerView
     private lateinit var viewAdapter : RecyclerView.Adapter<*>
     private lateinit var viewManager : RecyclerView.LayoutManager
-    private var userFeedList : MutableList<CheckInPost> = mutableListOf()
+    private var userFeedList : MutableList<FriendCheckIn> = mutableListOf()
     private val userFeedViewModel by lazy {
         ViewModelProviders.of(this,userFeedViewModelFactory).get(UserFeedViewModel::class.java)
     }
@@ -65,7 +62,7 @@ class UserFeedFragment : Fragment(){
         return view
     }
 
-    private fun updateAdapterWithData(postList :List <CheckInPost>){
+    private fun updateAdapterWithData(postList :List <FriendCheckIn>){
         userFeedList.clear()
         userFeedList.addAll(postList)
         viewAdapter.notifyDataSetChanged()
@@ -73,7 +70,7 @@ class UserFeedFragment : Fragment(){
 
     private fun observeUserFeedLiveData(){
         userFeedViewModel.userFeedLiveData.observe(
-            this, Observer<List<CheckInPost>>{
+            this, Observer<List<FriendCheckIn>>{
                 it?.let{
                     updateAdapterWithData(it)
                 }

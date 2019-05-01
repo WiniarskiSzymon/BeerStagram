@@ -3,14 +3,12 @@ package com.projects.bigswierku.beerstagram
 import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LiveData
 import com.projects.bigswierku.beerstagram.model.untapped.*
-import io.reactivex.observers.TestObserver
 
 
-fun CheckIn.toImagePost()=
+fun CheckIn.toLocalCheckIn()=
         when (this.media.items.size){
-            0-> ImagePost(
+            0-> LocalCheckIn(
                     this.checkinComment,
                     this.checkinId,
                     this.beer.beerName,
@@ -22,7 +20,7 @@ fun CheckIn.toImagePost()=
                     this.ratingScore,
                     this.user.userName
             )
-            else -> ImagePost(
+            else -> LocalCheckIn(
                 this.checkinComment,
                 this.checkinId,
                 this.beer.beerName,
@@ -37,9 +35,9 @@ fun CheckIn.toImagePost()=
         }
 
 
-fun CheckIn.toCheckInPost()=
+fun CheckIn.toFriendCheckIn()=
     when (this.venue.size){
-        0-> CheckInPost(
+        0-> FriendCheckIn(
             this.checkinComment,
             this.checkinId,
             this.beer.beerName,
@@ -51,7 +49,7 @@ fun CheckIn.toCheckInPost()=
             this.beer.beerLabel,
             this.ratingScore
     )
-        else -> CheckInPost(
+        else -> FriendCheckIn(
             this.checkinComment,
             this.checkinId,
             this.beer.beerName,

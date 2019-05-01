@@ -1,10 +1,12 @@
 package com.projects.bigswierku.beerstagram.model.untapped
 
-import com.google.gson.annotations.SerializedName
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class ImagePost(
+@Entity(tableName = "localCheckIns")
+data class LocalCheckIn(
         val checkinComment: String,
-        val checkinId: Int,
+        @PrimaryKey val checkinId: Int,
         val beerName : String,
         val beerStyle : String,
         val breweryName : String,

@@ -3,8 +3,8 @@ package com.projects.bigswierku.beerstagram.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
-import com.projects.bigswierku.beerstagram.model.untapped.CheckInPost
-import com.projects.bigswierku.beerstagram.toCheckInPost
+import com.projects.bigswierku.beerstagram.model.untapped.FriendCheckIn
+import com.projects.bigswierku.beerstagram.toFriendCheckIn
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +15,7 @@ class UserFeedViewModel @Inject constructor(private val untappedAPI: UntappedAPI
 
     private lateinit var disposable: Disposable
 
-    var userFeedLiveData : MutableLiveData<List<CheckInPost>> = MutableLiveData()
+    var userFeedLiveData : MutableLiveData<List<FriendCheckIn>> = MutableLiveData()
     var responseStatus : MutableLiveData<ResponseStatus> = MutableLiveData()
 
 
@@ -26,7 +26,7 @@ class UserFeedViewModel @Inject constructor(private val untappedAPI: UntappedAPI
             .doOnSubscribe{responseStatus.value = ResponseStatus(Status.SUCCESS) }
             .subscribe(
                 {
-                    userFeedLiveData.value = it.response.checkins.items.map{it.toCheckInPost()}
+                    userFeedLiveData.value = it.response.checkins.items.map{it.toFriendCheckIn()}
                     responseStatus.value = ResponseStatus(Status.SUCCESS)
                 },
                 {responseStatus.value = ResponseStatus(Status.ERROR,it.message) }

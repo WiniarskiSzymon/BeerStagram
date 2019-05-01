@@ -1,8 +1,13 @@
 package com.projects.bigswierku.beerstagram.model.untapped
 
-data class CheckInPost(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity(tableName = "friendCheckIns")
+data class FriendCheckIn(
     val checkinComment: String,
-    val checkinId: Int,
+    @PrimaryKey val checkinId: Int,
     val beerName : String,
     val beerStyle : String,
     val userName : String,

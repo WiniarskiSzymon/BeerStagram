@@ -2,10 +2,12 @@ package com.projects.bigswierku.beerstagram.DI
 
 import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
+import com.projects.bigswierku.beerstagram.Api.UntappedDatabase
 import com.projects.bigswierku.beerstagram.model.untapped.SingletonListTypeAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -47,6 +49,12 @@ class AppModule() {
         return httpClient.build()
 
     }
+
+
+    @Singleton
+    @Provides
+    fun providesUntappedDatabase( context: Context): UntappedDatabase =
+        Room.databaseBuilder(context, UntappedDatabase::class.java, "untapped_db").build()
 
 
     @Provides
