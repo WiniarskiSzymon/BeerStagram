@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import com.projects.bigswierku.beerstagram.model.untapped.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 fun CheckIn.toLocalCheckIn()=
@@ -44,7 +46,7 @@ fun CheckIn.toFriendCheckIn()=
             this.beer.beerStyle,
             this.user.userName,
             null,
-            this.createdAt,
+            this.createdAt.dropLast(5),
             this.user.userAvatar,
             this.beer.beerLabel,
             this.ratingScore
@@ -93,5 +95,7 @@ fun BeerSearchResultItem.toBeeeSearchresult() = BeerSearchResult(
     val dialog = builder.create()
     dialog.show()
 }
+
+
 
 

@@ -46,12 +46,6 @@ class CheckInsFragment : Fragment() {
         observeBeerInfoStatus()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreate(savedInstanceState)
         val view =  inflater.inflate(R.layout.checkins_list, container, false)
@@ -63,7 +57,7 @@ class CheckInsFragment : Fragment() {
             adapter = viewAdapter
         }
         recyclerView.addOnScrollListener(
-            EndlessOnScrollListener(getMoreData = {checkInsViewModel.getCheckIns(lastId = imageList.last().checkinId)},
+            EndlessOnScrollListener(getMoreData = {checkInsViewModel.getMoreCheckIns(lastId = imageList.last().checkinId)},
                 layoutManager = viewManager))
 
         return view
@@ -76,6 +70,7 @@ class CheckInsFragment : Fragment() {
             checkInsViewModel.getCheckIns()
         }
     }
+
     companion object {
         fun newInstance(): CheckInsFragment = CheckInsFragment()
     }

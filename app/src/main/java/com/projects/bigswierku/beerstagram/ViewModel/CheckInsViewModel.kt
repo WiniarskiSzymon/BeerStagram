@@ -28,6 +28,22 @@ class CheckInsViewModel @Inject constructor(private val untappedRepo: UntappedRe
         getLocation()
     }
 
+    private fun getLocation() {
+        locationProvider.getLastKnownLocation().addOnSuccessListener { location: Location? ->
+            if (location != null ) {
+                lastKnownLocation = location
+                if(!locationAcquiredFlag){
+                    getCheckIns()
+                    locationAcquiredFlag = true
+                }
+            }
+
+            else{
+                checkInsResponseStatus.value = ResponseStatus(Status.ERROR, "Cant obtain location")
+            }
+        }
+    }
+
 
     fun getCheckIns( lastId  : Int = 0) {
         if (::lastKnownLocation.isInitialized) {
@@ -46,31 +62,19 @@ class CheckInsViewModel @Inject constructor(private val untappedRepo: UntappedRe
             .subscribe(
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.SUCCESS)
-                    if (lastId == 0) {
-                        listOfImagePosts.clear()
-                    }
-                    listOfImagePosts.addAll(it.filterNot { it.bigPhotoUrl.isNullOrEmpty() })
-                    checkInsData.value = listOfImagePosts
+                    checkInsData.value = it.filterNot { it.bigPhotoUrl.isNullOrEmpty() }
                 },
                 {
                     checkInsResponseStatus.value = ResponseStatus(Status.ERROR, it.message)
                 })
     }
-    private fun getLocation() {
-        locationProvider.getLastKnownLocation().addOnSuccessListener { location: Location? ->
-            if (location != null ) {
-                lastKnownLocation = location
-                if(!locationAcquiredFlag){
-                    getCheckIns()
-                    locationAcquiredFlag = true
-                }
-            }
 
-            else{
-                checkInsResponseStatus.value = ResponseStatus(Status.ERROR, "Cant obtain location")
-            }
-        }
+
+    fun getMoreCheckIns(lastId: Int){
+        untappedRepo.getMoreCheckIns(lastId, lastKnownLocation)
     }
+
+
 
     override fun onCleared(){
         super.onCleared()

@@ -23,7 +23,7 @@ import io.reactivex.Single
     fun getCheckInById(id: Int?): Single<FriendCheckIn>
 
     @Query("select * from friendCheckIns")
-    fun getCheckIns() : Observable<FriendCheckIn>
+    fun getCheckIns() : Observable<List<FriendCheckIn>>
 
     @Query("delete from friendCheckIns")
     fun deleteAllCheckIns()
