@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
 import com.projects.bigswierku.beerstagram.model.untapped.BeerSearchResult
+import com.projects.bigswierku.beerstagram.model.untapped.ResponseStatus
+import com.projects.bigswierku.beerstagram.model.untapped.Status
 import com.projects.bigswierku.beerstagram.toBeeeSearchresult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,11 +25,13 @@ class BeerSearchViewModel @Inject constructor(private val untappedAPI: UntappedA
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe{
-                beerSearchResponseStatus.value = ResponseStatus(Status.LOADING)
+                beerSearchResponseStatus.value =
+                    ResponseStatus(Status.LOADING)
             }
             .subscribe(
                 {
-                    beerSearchResponseStatus.value = ResponseStatus(Status.SUCCESS)
+                    beerSearchResponseStatus.value =
+                        ResponseStatus(Status.SUCCESS)
                     if(offset ==0) {
                         listOfBeerSearchResult.clear()
                     }
@@ -35,7 +39,10 @@ class BeerSearchViewModel @Inject constructor(private val untappedAPI: UntappedA
                     beerSearchData.value = listOfBeerSearchResult
                 },
                 {
-                    beerSearchResponseStatus.value = ResponseStatus(Status.ERROR, it.message)
+                    beerSearchResponseStatus.value = ResponseStatus(
+                        Status.ERROR,
+                        it.message
+                    )
                 })
     }
 

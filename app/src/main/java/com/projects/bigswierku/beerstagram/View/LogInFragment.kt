@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.ViewModel.LogInViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.LogInViewModelFactory
-import com.projects.bigswierku.beerstagram.ViewModel.ResponseStatus
-import com.projects.bigswierku.beerstagram.ViewModel.Status
+import com.projects.bigswierku.beerstagram.model.untapped.ResponseStatus
+import com.projects.bigswierku.beerstagram.model.untapped.Status
 import com.projects.bigswierku.beerstagram.model.untapped.Token
 import com.projects.bigswierku.beerstagram.model.untapped.TokenStatus
 import dagger.android.support.AndroidSupportInjection

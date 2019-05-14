@@ -1,4 +1,4 @@
-package com.projects.bigswierku.beerstagram.ViewModel
+package com.projects.bigswierku.beerstagram.model.untapped
 
 class ResponseStatus (val status: Status, val errorMessage : String? = "")
 

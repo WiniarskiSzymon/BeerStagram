@@ -7,6 +7,8 @@ import com.projects.bigswierku.beerstagram.Api.UntappedRepo
 import com.projects.bigswierku.beerstagram.LasLocationProvider
 
 import com.projects.bigswierku.beerstagram.model.untapped.LocalCheckIn
+import com.projects.bigswierku.beerstagram.model.untapped.ResponseStatus
+import com.projects.bigswierku.beerstagram.model.untapped.Status
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -39,7 +41,10 @@ class CheckInsViewModel @Inject constructor(private val untappedRepo: UntappedRe
             }
 
             else{
-                checkInsResponseStatus.value = ResponseStatus(Status.ERROR, "Cant obtain location")
+                checkInsResponseStatus.value = ResponseStatus(
+                    Status.ERROR,
+                    "Cant obtain location"
+                )
             }
         }
     }
@@ -58,14 +63,20 @@ class CheckInsViewModel @Inject constructor(private val untappedRepo: UntappedRe
         disposable = untappedRepo.getLocalCheckIns(lastId, lastKnownLocation)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { checkInsResponseStatus.value = ResponseStatus(Status.LOADING) }
+            .doOnSubscribe { checkInsResponseStatus.value =
+                ResponseStatus(Status.LOADING)
+            }
             .subscribe(
                 {
-                    checkInsResponseStatus.value = ResponseStatus(Status.SUCCESS)
+                    checkInsResponseStatus.value =
+                        ResponseStatus(Status.SUCCESS)
                     checkInsData.value = it.filterNot { it.bigPhotoUrl.isNullOrEmpty() }
                 },
                 {
-                    checkInsResponseStatus.value = ResponseStatus(Status.ERROR, it.message)
+                    checkInsResponseStatus.value = ResponseStatus(
+                        Status.ERROR,
+                        it.message
+                    )
                 })
     }
 

@@ -24,14 +24,20 @@ class BeerImageViewModel @Inject constructor(val untappedAPI: UntappedAPI) : Vie
         disposable = untappedAPI.getBeerInfo(beerID)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { beerInfoRequestStatus.value = ResponseStatus(Status.LOADING) }
+            .doOnSubscribe { beerInfoRequestStatus.value =
+                ResponseStatus(Status.LOADING)
+            }
             .subscribe(
                 {
-                    beerInfoRequestStatus.value = ResponseStatus(Status.SUCCESS)
+                    beerInfoRequestStatus.value =
+                        ResponseStatus(Status.SUCCESS)
                     beerInfoData.value = it.response.beer.medias.items.map { it.photo }
                 },
                 {
-                   beerInfoRequestStatus.value = ResponseStatus(Status.ERROR, it.message)
+                   beerInfoRequestStatus.value = ResponseStatus(
+                       Status.ERROR,
+                       it.message
+                   )
                 })
     }
 

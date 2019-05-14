@@ -3,11 +3,12 @@ package com.projects.bigswierku.beerstagram.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.projects.bigswierku.beerstagram.Api.UntappedAPI
+import com.projects.bigswierku.beerstagram.model.untapped.ResponseStatus
+import com.projects.bigswierku.beerstagram.model.untapped.Status
 import com.projects.bigswierku.beerstagram.model.untapped.Token
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.Dispatcher
 import javax.inject.Inject
 
 class LogInViewModel @Inject constructor(private val untappedAPI: UntappedAPI) : ViewModel(){
@@ -22,14 +23,20 @@ class LogInViewModel @Inject constructor(private val untappedAPI: UntappedAPI) :
         disposable = untappedAPI.getToken(code)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { responseLiveData.value = ResponseStatus(Status.LOADING) }
+            .doOnSubscribe { responseLiveData.value =
+                ResponseStatus(Status.LOADING)
+            }
             .subscribe (
                 {
                     tokenLiveData.value = it.token
-                    responseLiveData.value = ResponseStatus(Status.SUCCESS)
+                    responseLiveData.value =
+                        ResponseStatus(Status.SUCCESS)
                 },
                 {
-                    responseLiveData.value = ResponseStatus(Status.ERROR, it.message)
+                    responseLiveData.value = ResponseStatus(
+                        Status.ERROR,
+                        it.message
+                    )
                 }
             )
 

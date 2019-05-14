@@ -17,8 +17,8 @@ import com.projects.bigswierku.beerstagram.Adapters.EndlessOnScrollListener
 import com.projects.bigswierku.beerstagram.R
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModel
 import com.projects.bigswierku.beerstagram.ViewModel.CheckInsViewModelFactory
-import com.projects.bigswierku.beerstagram.ViewModel.ResponseStatus
-import com.projects.bigswierku.beerstagram.ViewModel.Status
+import com.projects.bigswierku.beerstagram.model.untapped.ResponseStatus
+import com.projects.bigswierku.beerstagram.model.untapped.Status
 import com.projects.bigswierku.beerstagram.model.untapped.LocalCheckIn
 import com.projects.bigswierku.beerstagram.showMyDialog
 import dagger.android.support.AndroidSupportInjection
